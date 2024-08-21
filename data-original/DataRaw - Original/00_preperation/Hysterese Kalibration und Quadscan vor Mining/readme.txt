@@ -1,0 +1,1 @@
+einmal von + nach - und umgekehrt um einfluss von hysterese untersuchen zu können.

@@ -1,0 +1,1 @@
+time.time()-time_start, x_pos, x_sig, x_amp, x_off, y_pos, y_sig, y_amp, y_off, x_int, int_limit, int_ok
