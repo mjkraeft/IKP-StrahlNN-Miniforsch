@@ -1,0 +1,7 @@
+I0SH02:outCur
+I0SV02:outCur
+I0SH03:outCur
+I0SV03:outCur
+I0LE01:outCur
+I0QU01:outCur
+I0QU03:outCur

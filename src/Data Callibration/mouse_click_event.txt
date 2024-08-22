@@ -1,1 +1,0 @@
-x-location,y-location
