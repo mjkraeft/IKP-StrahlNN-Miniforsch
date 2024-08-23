@@ -14,27 +14,41 @@ input_data_range_max = 1.
 
 def calculateScale():
 
-
-
-
     pixel_points = np.loadtxt(mouse_click_file_path,
                               delimiter=' ',
                               skiprows=1)
 
 
-    pixel_dis = math.sqrt((pixel_points[0][0]-pixel_points[1][0])**2 + (pixel_points[0][1]-pixel_points[1][1])**2)
+    pixel_dis_1 = math.sqrt((pixel_points[0][0]-pixel_points[4][0])**2 + (pixel_points[0][1]-pixel_points[4][1])**2)
+    pixel_dis_2 = math.sqrt((pixel_points[3][0]-pixel_points[5][0])**2 + (pixel_points[3][1]-pixel_points[5][1])**2)
+    pixel_dis = (pixel_dis_1 + pixel_dis_2) * 0.5
+
     proper_dis = 20.     # mm
 
     scale = proper_dis/pixel_dis
 
+    print((pixel_dis, pixel_dis_1, pixel_dis_2))
 
 
-    offset = (
-        int(pixel_points[2][0]),
-        int(pixel_points[2][1])
+    center1 = (
+        (pixel_points[0][0] + pixel_points[1][0]) * 0.5,
+        (pixel_points[0][1] + pixel_points[1][1]) * 0.5,
     )
 
-    return scale, offset
+    center2 = (
+        (pixel_points[2][0] + pixel_points[3][0]) * 0.5,
+        (pixel_points[2][1] + pixel_points[3][1]) * 0.5,
+    )
+
+
+
+    center = (
+        int(np.round((np.mean([center1[0], center2[0]])))),
+        int(np.round((np.mean([center1[1], center2[1]])))),
+            )
+
+
+    return scale, center
 
 
 
@@ -62,6 +76,6 @@ def preprocessOutputData(scale: float, offset: (int, int)):
 
 
 if __name__ == '__main__':
-    #print(calculateScale())
+    print(calculateScale())
 
-    preprocessInputData()
+    #preprocessInputData()
