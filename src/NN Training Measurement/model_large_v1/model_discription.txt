@@ -1,0 +1,22 @@
+all inputs
+4 outputs
+         'x_loc_pre.png',
+         'x_std_pre.png',
+         'y_loc_pre.png',
+         'y_std_pre.png',
+
+
+
+model = tf.keras.models.Sequential([
+        tf.keras.Input(shape=(7,)),
+        tf.keras.layers.Dense(1000, activation='relu'),
+        tf.keras.layers.Dense(1000, activation='relu'),
+        tf.keras.layers.Dense(1000, activation='relu'),
+        tf.keras.layers.Dense(4)
+    ])
+
+
+model.fit(x, y, epochs=50)
+
+
+582/582 ━━━━━━━━━━━━━━━━━━━━ 1s 2ms/step - accuracy: 0.9842 - loss: 1.1708e-04

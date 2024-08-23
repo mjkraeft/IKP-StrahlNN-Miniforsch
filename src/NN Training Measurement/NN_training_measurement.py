@@ -4,10 +4,14 @@ import math
 
 import tensorflow as tf
 
+from scipy.stats import gaussian_kde
+
 
 
 input_file_path = 'preprocess_input.txt'
 output_file_path = 'preprocess_output.txt'
+
+model_file_path = 'model.keras'
 
 def getLabeledData ():
 
@@ -28,27 +32,96 @@ def getLabeledData ():
     return x, y
 
 
-
-if __name__ == '__main__':
-
-    x, y = getLabeledData()
-
+def train_model():
 
     model = tf.keras.models.Sequential([
-        tf.keras.Input(shape = (7,)),
-        tf.keras.layers.Dense(64, activation='relu'),
-        tf.keras.layers.Dense(64, activation='relu'),
-        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.Input(shape=(7,)),
+        tf.keras.layers.Dense(500, activation='relu', use_bias=True),
+        tf.keras.layers.Dense(500, activation='relu', use_bias=True),
+        tf.keras.layers.Dense(500, activation='relu', use_bias=True),
         tf.keras.layers.Dense(4)
     ])
-
     # compile the model
     model.compile(optimizer='adam',
                   loss='mse',
                   metrics=['accuracy']
                   )
     # train the model
-    model.fit(x, y, epochs=100)
+    model.fit(x, y, epochs=50)
+
+    return model
+
+
+def saveModel(model: tf.keras.models.Sequential):
+    model.save(model_file_path)
+
+
+def loadModel():
+    return tf.keras.models.load_model(model_file_path)
+
+if __name__ == '__main__':
+
+    x, y = getLabeledData()
+
+    #model = train_model()
+    #saveModel(model)
+
+    model = loadModel()
+
+
+    y_predict = model.predict(x)
+
+    for i in range(y.shape[1]):
+        plt.figure(dpi=400)
+        xy = np.vstack([y_predict[:,i], y[:,i]])
+        z = gaussian_kde(xy)(xy)
+
+        plt.scatter(y[:,i],y_predict[:,i],
+                    c=z,
+                    marker = '.',
+                    s=1,
+                    )
+
+        x1 = 0
+        y1 = 0
+        x2 = 1
+        y2 = 1
+
+        plt.plot([x1,x2], [y1,y2],
+                 color = 'red',
+                 linewidth='1'
+                 )
+
+        plt.xlim(x1,x2)
+        plt.ylim(y1,y2)
+
+        plt.xlabel([
+            'x_loc',
+            'x_sig',
+            'y_loc',
+            'y_sig',
+                   ][i])
+
+        plt.ylabel([
+                       'x_loc_pre',
+                       'x_sig_pre',
+                       'y_loc_pre',
+                       'y_sig_pre',
+                   ][i])
+
+        plt.savefig([
+         'x_loc_pre.png',
+         'x_sig_pre.png',
+         'y_loc_pre.png',
+         'y_sig_pre.png',
+        ][i])
+        plt.show()
+        
+
+
+
+
+
 
 
 
