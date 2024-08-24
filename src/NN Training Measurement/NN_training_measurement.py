@@ -32,22 +32,51 @@ def getLabeledData ():
     return x, y
 
 
-def train_model():
+def train_model(x: np.array, y: np.array):
+
+
+
+    lossFunktion = tf.keras.losses.Huber(
+        delta=0.3,
+        #reduction="sum_over_batch_size",
+        name="huber_loss"
+    )
+
+    #lossFunktion = tf.keras.losses.MeanAbsoluteError()
+
+
+    #activationFunktion = lambda a: tf.keras.activations.leaky_relu(a, negative_slope=0.2)
+
 
     model = tf.keras.models.Sequential([
         tf.keras.Input(shape=(7,)),
-        tf.keras.layers.Dense(500, activation='relu', use_bias=True),
-        tf.keras.layers.Dense(500, activation='relu', use_bias=True),
-        tf.keras.layers.Dense(500, activation='relu', use_bias=True),
-        tf.keras.layers.Dense(4)
+        tf.keras.layers.Dense(400,
+                              activation= 'relu',
+                              use_bias=True),
+        tf.keras.layers.Dropout(0.01),
+        #tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Dense(400,
+                              activation= 'relu',
+                              use_bias=True),
+        tf.keras.layers.Dropout(0.01),
+        #tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Dense(100,
+                              activation= 'relu',
+                              use_bias=True),
+        #tf.keras.layers.Dropout(0.001),
+        # tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Dense(4, use_bias=True)
     ])
     # compile the model
     model.compile(optimizer='adam',
-                  loss='mse',
-                  metrics=['accuracy']
+                  loss=lossFunktion,
+                  metrics=[
+                      #'mean_squared_error',
+                      'mean_absolute_error',
+                  ]
                   )
     # train the model
-    model.fit(x, y, epochs=50)
+    model.fit(x, y, epochs=25)
 
     return model
 
@@ -63,7 +92,10 @@ if __name__ == '__main__':
 
     x, y = getLabeledData()
 
-    #model = train_model()
+
+
+
+    #model = train_model(x,y)
     #saveModel(model)
 
     model = loadModel()
@@ -72,7 +104,7 @@ if __name__ == '__main__':
     y_predict = model.predict(x)
 
     for i in range(y.shape[1]):
-        plt.figure(dpi=400)
+        plt.figure(dpi=200)
         xy = np.vstack([y_predict[:,i], y[:,i]])
         z = gaussian_kde(xy)(xy)
 
@@ -82,14 +114,15 @@ if __name__ == '__main__':
                     s=1,
                     )
 
-        x1 = 0
-        y1 = 0
-        x2 = 1
-        y2 = 1
+        x1 = -0.1
+        y1 = -0.1
+        x2 = 1.1
+        y2 = 1.1
 
         plt.plot([x1,x2], [y1,y2],
                  color = 'red',
-                 linewidth='1'
+                 linewidth='1',
+                 linestyle='dotted',
                  )
 
         plt.xlim(x1,x2)

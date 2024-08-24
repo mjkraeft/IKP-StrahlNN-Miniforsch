@@ -61,6 +61,10 @@ def calculateScale():
 
 
 
+ptsToRemove = [2228,
+               15161,
+               ]
+
 
 def preprocessInputData():
 
@@ -69,10 +73,12 @@ def preprocessInputData():
                             unpack=True
                             )
 
+    input_data = np.delete(input_data, ptsToRemove, 1)
 
     output_data = np.loadtxt(output_file_path,
                              delimiter=' ',
                              )
+    output_data = np.delete(output_data, ptsToRemove, axis=0)
 
     out_of_bounds_data_points = [i for i in range(output_data.shape[0]) if output_data[i, -1] == 0.]
     input_data = np.delete(input_data, out_of_bounds_data_points, axis=1)
@@ -92,12 +98,15 @@ def preprocessOutputData(scale: float, offset: (int, int)):
     output_data = np.loadtxt(output_file_path,
                               delimiter=' ',
                               )
+    output_data = np.delete(output_data, ptsToRemove, axis=0)
 
     out_of_bounds_data_points = [i for i in range(output_data.shape[0]) if output_data[i, -1] == 0.]
     output_data = np.delete(output_data, out_of_bounds_data_points, axis=0)
 
+
     data_ranges = [(min(output_data[:, i]), max(output_data[:, i])) for i in range(output_data.shape[1])]
 
+    print(data_ranges)
 
     output_data = np.array([
         output_data[:, i]
