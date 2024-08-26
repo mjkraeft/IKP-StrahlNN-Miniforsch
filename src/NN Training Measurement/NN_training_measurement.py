@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
 
 from scipy.stats import gaussian_kde
@@ -50,17 +52,17 @@ def train_model(x: np.array, y: np.array):
 
     model = tf.keras.models.Sequential([
         tf.keras.Input(shape=(7,)),
-        tf.keras.layers.Dense(400,
-                              activation= 'relu',
-                              use_bias=True),
-        tf.keras.layers.Dropout(0.01),
-        #tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Dense(400,
+        tf.keras.layers.Dense(100,
                               activation= 'relu',
                               use_bias=True),
         tf.keras.layers.Dropout(0.01),
         #tf.keras.layers.BatchNormalization(),
         tf.keras.layers.Dense(100,
+                              activation= 'relu',
+                              use_bias=True),
+        tf.keras.layers.Dropout(0.01),
+        #tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.Dense(10,
                               activation= 'relu',
                               use_bias=True),
         #tf.keras.layers.Dropout(0.001),
@@ -95,8 +97,8 @@ if __name__ == '__main__':
 
 
 
-    #model = train_model(x,y)
-    #saveModel(model)
+    model = train_model(x,y)
+    saveModel(model)
 
     model = loadModel()
 

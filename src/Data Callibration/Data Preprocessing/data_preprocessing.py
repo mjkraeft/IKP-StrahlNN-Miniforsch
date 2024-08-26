@@ -65,6 +65,64 @@ ptsToRemove = [2228,
                15161,
                ]
 
+#ptsToRemove = []
+
+def preprocessData(scale_type = 'normalize'):
+
+
+    input_data = np.loadtxt(input_file_path,
+                            delimiter=' ',
+                            unpack=True
+                            )
+
+    output_data = np.loadtxt(output_file_path,
+                             delimiter=' ',
+                             )
+
+    input_data = np.delete(input_data, ptsToRemove, 1)
+    output_data = np.delete(output_data, ptsToRemove, axis=0)
+
+    out_of_bounds_data_points = [i for i in range(output_data.shape[0]) if output_data[i, -1] == 0.]
+    input_data = np.delete(input_data, out_of_bounds_data_points, axis=1)
+    output_data = np.delete(output_data, out_of_bounds_data_points, axis=0)
+
+
+
+
+    if scale_type == 'normalize':
+
+        print()
+
+    elif scale_type == 'min_max':
+
+        data_range = [max(abs(min(d)), abs(max(d))) for d in input_data]
+        data_ranges = np.swapaxes(np.array([[-1 * s for s in data_range], data_range]), 0, 1)
+
+        input_data = np.array([np.interp(d, data_ranges[i], [input_data_range_min, input_data_range_max]) for i, d in enumerate(input_data)])
+        input_data = np.array([input_data[:, i] for i in range(input_data.shape[1])])
+
+        output_data = np.array([
+            output_data[:, i]
+            for i in range(output_data.shape[1])
+        ])
+
+        output_data = np.array(
+            [np.interp(d, [data_ranges[i][0], data_ranges[i]][1], [output_data_range_min, output_data_range_max]) for i, d
+             in enumerate(output_data)])
+
+        output_data = np.array([
+            output_data[:, i]
+            for i in range(output_data.shape[1])
+        ])
+
+        output_data = np.append(output_data[:, 1:3], output_data[:, 5:7], axis=1)
+
+
+
+
+    np.savetxt(prepro_output_file_path, output_data)
+    np.savetxt(prepro_input_file_path, input_data)
+
 
 def preprocessInputData():
 
@@ -132,5 +190,7 @@ def preprocessOutputData(scale: float, offset: (int, int)):
 if __name__ == '__main__':
     scale, center = calculateScale()
 
-    preprocessInputData()
-    preprocessOutputData(scale, center)
+    #preprocessInputData()
+    #preprocessOutputData(scale, center)
+
+    preprocessData(scale_type='min_max')

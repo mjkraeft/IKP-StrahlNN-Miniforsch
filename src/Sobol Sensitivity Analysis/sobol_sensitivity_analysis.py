@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import math
 import pandas as pd
 
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 import tensorflow as tf
 from SALib.sample import saltelli
 from SALib.analyze import sobol
@@ -98,7 +101,10 @@ if __name__ == '__main__':
         Si.append(sobol.analyze(problem,y[:,i],
                                 parallel=True,
                                 n_processors = 16,
+                                print_to_console=True,
         ))
+
+        print()
 
     #for i in range(numOutPuts):
     #    print(str(i) + ' : ' + str(Si[i]['S1']))
