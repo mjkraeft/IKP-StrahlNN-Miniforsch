@@ -6,6 +6,8 @@ import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
 
+import keras_tuner
+
 from scipy.stats import gaussian_kde
 
 
@@ -39,7 +41,7 @@ def train_model(x: np.array, y: np.array):
 
 
     lossFunktion = tf.keras.losses.Huber(
-        delta=0.3,
+        delta=0.1,
         #reduction="sum_over_batch_size",
         name="huber_loss"
     )
@@ -78,9 +80,76 @@ def train_model(x: np.array, y: np.array):
                   ]
                   )
     # train the model
-    model.fit(x, y, epochs=25)
+    history = model.fit(x, y,
+              epochs=25,
+              validation_split = 0.1,
+              shuffle=True,
+              )
+
+    return model, history
+
+def build_model(hp):
+    activation = hp.Choice("activation", ["relu", "tanh"])
+    units = hp.Int("units", min_value = 10, max_value = 100, step = 5)
+    num_layers = hp.Int('num_layers',min_value = 1, max_value = 4, step = 1)
+    biased = hp.Boolean('biased')
+
+    model = tf.keras.Sequential()
+    model.add(tf.keras.Input(shape=(7,)))
+
+    for i in range(num_layers):
+        model.add(tf.keras.layers.Dense(units,
+                                        activation = activation,
+                                        use_bias = biased,
+                                        ))
+        model.add(tf.keras.layers.Dropout(0.01))
+
+    model.add(tf.keras.layers.Dense(4, use_bias=biased))
+
+
+    lossFunktion = tf.keras.losses.Huber(
+        delta=0.1,
+        # reduction="sum_over_batch_size",
+        name="huber_loss"
+    )
+
+
+    model.compile(optimizer='adam',
+                  loss=lossFunktion,
+                  metrics=[
+                      # 'mean_squared_error',
+                      'mean_absolute_error',
+                  ]
+                  )
 
     return model
+
+
+def hyperparam_optimisation(x: np.array, y: np.array):
+
+    model = build_model(keras_tuner.HyperParameters())
+
+    tuner = keras_tuner.RandomSearch(
+        hypermodel=model,
+        objective="val_loss",
+        max_trials=3,
+        executions_per_trial=2,
+        overwrite=True,
+        directory="tuner.txt",
+        project_name="tuner",
+    )
+
+    tuner.search(x, y,
+                 epochs=2,
+                 validation_split=0.1,
+                 shuffle=True,
+                 )
+
+    models = tuner.get_best_models(num_models=1)
+    best_model = models[0]
+    best_model.summary()
+
+    return best_model
 
 
 def saveModel(model: tf.keras.models.Sequential):
@@ -97,7 +166,10 @@ if __name__ == '__main__':
 
 
 
-    model = train_model(x,y)
+    #model,history = train_model(x,y)
+
+    model = hyperparam_optimisation(x,y)
+
     saveModel(model)
 
     model = loadModel()
@@ -116,10 +188,10 @@ if __name__ == '__main__':
                     s=1,
                     )
 
-        x1 = -0.1
-        y1 = -0.1
-        x2 = 1.1
-        y2 = 1.1
+        x1 = -2.1
+        y1 = -2.1
+        x2 = 2.1
+        y2 = 2.1
 
         plt.plot([x1,x2], [y1,y2],
                  color = 'red',
