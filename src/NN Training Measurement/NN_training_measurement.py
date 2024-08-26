@@ -4,7 +4,8 @@ import math
 
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-import tensorflow as tf
+#import tensorflow as tf
+import keras
 
 import keras_tuner
 
@@ -40,7 +41,7 @@ def train_model(x: np.array, y: np.array):
 
 
 
-    lossFunktion = tf.keras.losses.Huber(
+    lossFunktion = keras.losses.Huber(
         delta=0.1,
         #reduction="sum_over_batch_size",
         name="huber_loss"
@@ -52,24 +53,24 @@ def train_model(x: np.array, y: np.array):
     #activationFunktion = lambda a: tf.keras.activations.leaky_relu(a, negative_slope=0.2)
 
 
-    model = tf.keras.models.Sequential([
-        tf.keras.Input(shape=(7,)),
-        tf.keras.layers.Dense(100,
+    model = keras.models.Sequential([
+        keras.Input(shape=(7,)),
+        keras.layers.Dense(100,
                               activation= 'relu',
                               use_bias=True),
-        tf.keras.layers.Dropout(0.01),
+        keras.layers.Dropout(0.01),
         #tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Dense(100,
+        keras.layers.Dense(100,
                               activation= 'relu',
                               use_bias=True),
-        tf.keras.layers.Dropout(0.01),
+        keras.layers.Dropout(0.01),
         #tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Dense(10,
+        keras.layers.Dense(10,
                               activation= 'relu',
                               use_bias=True),
         #tf.keras.layers.Dropout(0.001),
         # tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.Dense(4, use_bias=True)
+        keras.layers.Dense(4, use_bias=True)
     ])
     # compile the model
     model.compile(optimizer='adam',
@@ -88,26 +89,44 @@ def train_model(x: np.array, y: np.array):
 
     return model, history
 
-def build_model(hp):
-    activation = hp.Choice("activation", ["relu", "tanh"])
-    units = hp.Int("units", min_value = 10, max_value = 100, step = 5)
-    num_layers = hp.Int('num_layers',min_value = 1, max_value = 4, step = 1)
-    biased = hp.Boolean('biased')
 
-    model = tf.keras.Sequential()
-    model.add(tf.keras.Input(shape=(7,)))
+
+def train_optimized_model(model, x: np.array, y: np.array):
+
+
+    history = model.fit(x, y,
+                        epochs=25,
+                        validation_split=0.1,
+                        shuffle=True,
+                        )
+
+    return model, history
+
+
+def build_model(hp):
+    #activation = hp.Choice("activation", ["relu", "tanh"])
+    activation = "relu"
+    #units = hp.Int("units", min_value = 10, max_value = 400, step = 5)
+    num_layers = hp.Int('num_layers',min_value = 1, max_value = 10, step = 1)
+    #biased = hp.Boolean('biased')
+    biased = True
+
+    model = keras.Sequential()
+    model.add(keras.Input(shape=(7,)))
 
     for i in range(num_layers):
-        model.add(tf.keras.layers.Dense(units,
-                                        activation = activation,
-                                        use_bias = biased,
-                                        ))
-        model.add(tf.keras.layers.Dropout(0.01))
+        model.add(keras.layers.Dense(
+                                    units=hp.Int('units_' + str(i), min_value=10, max_value=400, step=5),
+                                    #units=units,
+                                     activation=activation,
+                                     use_bias=biased,
+                                     ))
+        model.add(keras.layers.Dropout(0.01))
 
-    model.add(tf.keras.layers.Dense(4, use_bias=biased))
+    model.add(keras.layers.Dense(4, use_bias=biased))
 
 
-    lossFunktion = tf.keras.losses.Huber(
+    lossFunktion = keras.losses.Huber(
         delta=0.1,
         # reduction="sum_over_batch_size",
         name="huber_loss"
@@ -127,20 +146,39 @@ def build_model(hp):
 
 def hyperparam_optimisation(x: np.array, y: np.array):
 
-    model = build_model(keras_tuner.HyperParameters())
+    build_model(keras_tuner.HyperParameters())
 
     tuner = keras_tuner.RandomSearch(
-        hypermodel=model,
+        hypermodel=build_model,
         objective="val_loss",
-        max_trials=3,
+        max_trials=10,
         executions_per_trial=2,
         overwrite=True,
-        directory="tuner.txt",
-        project_name="tuner",
+        directory="tuner",
+        project_name="tuner_project",
+    )
+
+    tuner = keras_tuner.BayesianOptimization(
+    hypermodel=build_model,
+    objective="val_loss",
+    max_trials=10,
+    executions_per_trial=2,
+    #num_initial_points=None,
+    #alpha=0.0001,
+    #beta=2.6,
+    #seed=None,
+    #hyperparameters=None,
+    #tune_new_entries=True,
+    #allow_new_entries=True,
+    #max_retries_per_trial=0,
+    #max_consecutive_failed_trials=3,
+    overwrite=True,
+    directory="tuner",
+    project_name="tuner_project",
     )
 
     tuner.search(x, y,
-                 epochs=2,
+                 epochs=10,
                  validation_split=0.1,
                  shuffle=True,
                  )
@@ -152,14 +190,16 @@ def hyperparam_optimisation(x: np.array, y: np.array):
     return best_model
 
 
-def saveModel(model: tf.keras.models.Sequential):
+def saveModel(model: keras.models.Sequential):
     model.save(model_file_path)
 
 
 def loadModel():
-    return tf.keras.models.load_model(model_file_path)
+    return keras.models.load_model(model_file_path)
 
 if __name__ == '__main__':
+
+
 
     x, y = getLabeledData()
 
@@ -169,6 +209,7 @@ if __name__ == '__main__':
     #model,history = train_model(x,y)
 
     model = hyperparam_optimisation(x,y)
+    model, history = train_optimized_model(model,x,y)
 
     saveModel(model)
 
@@ -223,6 +264,7 @@ if __name__ == '__main__':
          'y_sig_pre.png',
         ][i])
         plt.show()
+
         
 
 
