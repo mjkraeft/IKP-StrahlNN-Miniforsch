@@ -134,7 +134,7 @@ def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tup
 
     # train the model
     history = model.fit(training_set[0], training_set[1],
-              epochs=40,
+              epochs=20,
               validation_data=validation_set,
               shuffle=True,
               )
@@ -233,7 +233,7 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
     tuner = keras_tuner.BayesianOptimization(
     hypermodel=hypermodel,
     objective="val_loss",
-    max_trials=20,
+    max_trials=1,
     executions_per_trial=1,
     #num_initial_points=None,
     #alpha=0.0001,
@@ -250,7 +250,7 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
     )
 
     tuner.search(training_set[0], training_set[1],
-                 epochs=20,
+                 epochs=1,
                  validation_data=validation_set,
                  shuffle=True,
                  #batch_size = 100,
@@ -264,7 +264,55 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
 
 
 def training_set_size_optimisation():
-    print()
+    training_set_fracs = np.arange(0.01,0.6,0.3)
+    results = np.zeros((training_set_fracs.shape[0], 3), dtype=float)
+
+
+    for i,t_s in enumerate(training_set_fracs):
+
+        print()
+        print()
+        print("Testing training_set_frac: " + str(t_s) + "\t(%i/%i)" % (i+1, training_set_fracs.shape[0]))
+
+        validation_frac = 0.25
+        test_frac = 0.05
+        training_set, validation_set, test_set = getLabeledData(t_s, validation_frac, test_frac)
+
+        #model, history = train_model(training_set, validation_set)
+
+        model = hyperparam_optimisation(training_set, validation_set)
+        model, history = train_optimized_model(model, training_set, validation_set)
+
+        results[i] = model.evaluate(test_set[0], test_set[1])
+
+
+    np.savetxt('training_set_size_opti/training_set_size_opti.txt',np.append(training_set_fracs.reshape(training_set_fracs.shape[0],-1), results, axis=1))
+
+    for i in range(results.shape[1]):
+        plt.figure(dpi = 200)
+
+        plt.plot(training_set_fracs, results[:,i],
+                 linewidth = 0.5
+                 )
+
+        plt.xlabel('training_frac')
+
+        plt.ylabel(['test_loss',
+                  'mean_absolute_error',
+                  'mean_squared_error',
+                  ][i])
+
+        plt.grid()
+
+        plt.savefig('training_set_size_opti/' +
+            ['test_loss',
+                  'mean_absolute_error',
+                  'mean_squared_error',
+                  ][i] + '.png')
+
+        plt.show()
+
+
 
 
 def saveModel(model: keras.models.Sequential):
@@ -274,41 +322,17 @@ def saveModel(model: keras.models.Sequential):
 def loadModel():
     return keras.models.load_model(model_file_path)
 
-if __name__ == '__main__':
 
-
-
-    training_frac = 0.1
-    validation_frac = 0.25
-    test_frac = 0.5
-    training_set, validation_set, test_set = getLabeledData(training_frac, validation_frac, test_frac)
-
-
-
-    #print()
-
-    model,history = train_model(training_set, validation_set)
-
-    #model = hyperparam_optimisation(training_set, validation_set)
-    #model, history = train_optimized_model(model,training_set, validation_set)
-
-    #saveModel(model)
-
-    #model = loadModel()
-
-    evaluation_result = model.evaluate(test_set[0], test_set[1])
-    print(evaluation_result)
-
+def visualize_model_testing(model: keras.models.Sequential, test_set):
     test_set_pre = model.predict(test_set[0])
-
     for i in range(test_set[1].shape[1]):
         plt.figure(dpi=200)
         xy = np.vstack([test_set_pre[:, i], test_set[1][:, i]])
         z = gaussian_kde(xy)(xy)
 
-        plt.scatter(test_set[1][:,i], test_set_pre[:, i],
+        plt.scatter(test_set[1][:, i], test_set_pre[:, i],
                     c=z,
-                    marker = '.',
+                    marker='.',
                     s=1,
                     )
 
@@ -317,23 +341,22 @@ if __name__ == '__main__':
         x2 = 2.1
         y2 = 2.1
 
-        plt.plot([x1,x2], [y1,y2],
-                 color = 'red',
+        plt.plot([x1, x2], [y1, y2],
+                 color='red',
                  linewidth='1',
                  linestyle='dotted',
                  )
 
-        plt.xlim(x1,x2)
-        plt.ylim(y1,y2)
-
+        plt.xlim(x1, x2)
+        plt.ylim(y1, y2)
 
         labels = []
         if amount_outputs == 9:
             labels = ['x_pos', 'x_sig', 'x_amp', 'x_off', 'y_pos', 'y_sig', 'y_amp', 'y_off', 'x_int']
         elif amount_outputs == 4:
-            labels = ['x_loc','x_sig','y_loc','y_sig']
+            labels = ['x_loc', 'x_sig', 'y_loc', 'y_sig']
 
-        #plt.xlabel([
+        # plt.xlabel([
         #    'x_loc',
         #    'x_sig',
         #    'y_loc',
@@ -342,7 +365,7 @@ if __name__ == '__main__':
 
         plt.xlabel(labels[i])
 
-        #plt.ylabel([
+        # plt.ylabel([
         #               'x_loc_pre',
         #               'x_sig_pre',
         #               'y_loc_pre',
@@ -351,20 +374,48 @@ if __name__ == '__main__':
 
         plt.ylabel(labels[i] + '_pre')
 
-
-
-        #plt.savefig([
+        # plt.savefig([
         # 'x_loc_pre.png',
         # 'x_sig_pre.png',
         # 'y_loc_pre.png',
         # 'y_sig_pre.png',
-        #][i])
+        # ][i])
 
         plt.title(f"Training: {training_frac}, Validation: {validation_frac}, Testing: {test_frac}")
 
         plt.savefig(labels[i] + '_pre.png')
 
         plt.show()
+
+
+if __name__ == '__main__':
+
+
+
+    #training_frac = 0.1
+    #validation_frac = 0.25
+    #test_frac = 0.5
+    #training_set, validation_set, test_set = getLabeledData(training_frac, validation_frac, test_frac)
+
+
+
+    #print()
+
+    #model,history = train_model(training_set, validation_set)
+
+    #model = hyperparam_optimisation(training_set, validation_set)
+    #model, history = train_optimized_model(model,training_set, validation_set)
+
+    #saveModel(model)
+
+    #model = loadModel()
+
+    #evaluation_result = model.evaluate(test_set[0], test_set[1])
+    #print(evaluation_result)
+
+    #visualize_model_testing(model)
+
+    training_set_size_optimisation()
 
         
 
