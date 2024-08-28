@@ -98,6 +98,8 @@ def preprocessData(scale_type = 'normalize'):
     x_intense = np.array(calculate_intense(output_data[:,2], output_data[:,3])).reshape((output_data.shape[0],-1))
     y_intense = np.array(calculate_intense(output_data[:,6], output_data[:,7])).reshape((output_data.shape[0],-1))
 
+    keep_std_amount = 3 #TODO: make this dynamic, lim not hard coded
+
     x_intense_lim = (0.4e6, 2.25e6)
     y_intense_lim = (0.4e6, 2.25e6)
 
@@ -110,7 +112,6 @@ def preprocessData(scale_type = 'normalize'):
 
     output_data = np.append(output_data, x_intense, axis=1)
     output_data = np.append(output_data, y_intense, axis=1)
-
     input_data = np.delete(input_data, intense_idx_remove, axis=1)
     output_data = np.delete(output_data, intense_idx_remove, axis=0)
 
@@ -322,4 +323,4 @@ if __name__ == '__main__':
 
     #print(calculate_intense(testStd, testAmp))
 
-    #visualize_intense()
+    visualize_intense()

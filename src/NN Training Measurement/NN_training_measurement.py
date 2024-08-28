@@ -21,6 +21,25 @@ output_file_path = 'preprocess_output.txt'
 model_file_path = 'model.keras'
 
 
+def getLabeledDataOld():
+
+    x = np.loadtxt(input_file_path,
+                   delimiter=' ',
+                   #max_rows=10
+                   )
+
+    #x = [np.array(x[:,i]) for i in range(x.shape[1])]
+
+    y = np.loadtxt(output_file_path,
+                   delimiter=' ',
+                   #max_rows=10
+                   )
+
+    #y = [np.array(y[:,i]) for i in range(y.shape[1])]
+
+    return x, y
+
+
 def getLabeledData(training_frac: float, validation_frac: float, test_frac: float):
 
     x = np.loadtxt(input_file_path,
@@ -38,8 +57,8 @@ def getLabeledData(training_frac: float, validation_frac: float, test_frac: floa
 
     #y = [np.array(y[:,i]) for i in range(y.shape[1])]
 
-    #if amount_outputs == 4:
-    #    y = np.delete(y,[4,5],1)
+    if amount_outputs == 4:
+        y = np.delete(y,[4,5],1)
 
 
     if x.shape[0] != y.shape[0]:
@@ -62,19 +81,12 @@ def getLabeledData(training_frac: float, validation_frac: float, test_frac: floa
     x_test_set = x[-testing_index:-1]
     y_test_set = y[-testing_index:-1]
 
-    print(x_training_set.shape)
-    print(y_training_set.shape)
 
-    print(x_validation_set.shape)
-    print(y_validation_set.shape)
-
-    print(x_test_set.shape)
-    print(y_test_set.shape)
 
     return (x_training_set, y_training_set), (x_validation_set, y_validation_set), (x_test_set, y_test_set)
 
 
-def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray],):
+def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
 
 
 
@@ -93,17 +105,17 @@ def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tup
 
     model = keras.models.Sequential([
         keras.Input(shape=(7,)),
-        keras.layers.Dense(400,
+        keras.layers.Dense(200,
                               activation= 'relu',
                               use_bias=True),
-        keras.layers.Dropout(0.01),
+        keras.layers.Dropout(0.02),
         #tf.keras.layers.BatchNormalization(),
-        keras.layers.Dense(400,
+        keras.layers.Dense(200,
                               activation= 'relu',
                               use_bias=True),
-        keras.layers.Dropout(0.01),
+        keras.layers.Dropout(0.02),
         #tf.keras.layers.BatchNormalization(),
-        keras.layers.Dense(100,
+        keras.layers.Dense(50,
                               activation= 'relu',
                               use_bias=True),
         #tf.keras.layers.Dropout(0.001),
@@ -114,79 +126,97 @@ def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tup
     model.compile(optimizer='adam',
                   loss=lossFunktion,
                   metrics=[
-                      #'mean_squared_error',
                       'mean_absolute_error',
+                      'mean_squared_error',
+
                   ]
                   )
 
     # train the model
     history = model.fit(training_set[0], training_set[1],
-              epochs=12,
+              epochs=40,
               validation_data=validation_set,
-              #shuffle=True,
+              shuffle=True,
               )
 
     return model, history
 
 
 
-def train_optimized_model(model, x: np.array, y: np.array):
+def train_optimized_model(model: keras.models.Sequential, training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
 
 
-    history = model.fit(x, y,
-                        epochs=12,
-                        validation_split=0.3,
+    history = model.fit(training_set[0], training_set[1],
+                        epochs=60,
+                        validation_data=validation_set,
                         shuffle=True,
+                        batch_size=100,
                         )
 
     return model, history
 
 
-def build_model(hp):
-    #activation = hp.Choice("activation", ["relu", "tanh"])
-    activation = "relu"
-    #units = hp.Int("units", min_value = 10, max_value = 400, step = 5)
-    num_layers = hp.Int('num_layers',min_value = 1, max_value = 5, step = 1)
-    #biased = hp.Boolean('biased')
-    biased = True
-    dropout_rate = hp.Float('dropout_rate',min_value = 0., max_value = 0.3, step = 0.005)
-
-    model = keras.Sequential()
-    model.add(keras.Input(shape=(7,)))
-
-    for i in range(num_layers):
-        model.add(keras.layers.Dense(
-                                    units=hp.Int('units_' + str(i), min_value=10, max_value=400, step=5),
-                                    #units=units,
-                                     activation=activation,
-                                     use_bias=biased,
-                                     ))
-        model.add(keras.layers.Dropout(dropout_rate))
-
-    model.add(keras.layers.Dense(amount_outputs, use_bias=biased))
+class HyperModel(keras_tuner.HyperModel):
 
 
-    lossFunktion = keras.losses.Huber(
-        delta=0.1,
-        # reduction="sum_over_batch_size",
-        name="huber_loss"
-    )
+    def build(self, hp):
+        #activation = hp.Choice("activation", ["relu", "tanh"])
+        activation = "relu"
+        #units = hp.Int("units", min_value = 10, max_value = 400, step = 5)
+        num_layers = hp.Int('num_layers',min_value = 1, max_value = 5, step = 1)
+        #biased = hp.Boolean('biased')
+        biased = True
+        dropout_rate = hp.Float('dropout_rate',min_value = 0., max_value = 0.3, step = 0.005)
+
+        model = keras.Sequential()
+        model.add(keras.Input(shape=(7,)))
+
+        for i in range(num_layers):
+            model.add(keras.layers.Dense(
+                                        units=hp.Int('units_' + str(i), min_value=10, max_value=400, step=5),
+                                        #units=units,
+                                         activation=activation,
+                                         use_bias=biased,
+                                         ))
+            model.add(keras.layers.Dropout(dropout_rate))
+
+        model.add(keras.layers.Dense(amount_outputs, use_bias=biased))
 
 
-    model.compile(optimizer='adam',
-                  loss=lossFunktion,
-                  metrics=[
-                      # 'mean_squared_error',
-                      'mean_absolute_error',
-                  ]
-                  )
-
-    return model
+        lossFunktion = keras.losses.Huber(
+            delta=0.1,
+            # reduction="sum_over_batch_size",
+            name="huber_loss"
+        )
 
 
-def hyperparam_optimisation(x: np.array, y: np.array):
+        model.compile(optimizer='adam',
+                      loss=lossFunktion,
+                      metrics=[
+                          'mean_absolute_error',
+                          'mean_squared_error',
 
-    build_model(keras_tuner.HyperParameters())
+                      ]
+                      )
+
+        return model
+
+    def fit(self, hp, model, *args, **kwargs):
+        return model.fit(
+            *args,
+            batch_size = hp.Int("batch_size", min_value=50, max_value=200, step=10),
+            **kwargs,
+        )
+
+
+def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
+
+    hp = keras_tuner.HyperParameters()
+    hypermodel = HyperModel()
+
+
+
+    #build_model(keras_tuner.HyperParameters())
 
     """
     tuner = keras_tuner.RandomSearch(
@@ -201,7 +231,7 @@ def hyperparam_optimisation(x: np.array, y: np.array):
     """
 
     tuner = keras_tuner.BayesianOptimization(
-    hypermodel=build_model,
+    hypermodel=hypermodel,
     objective="val_loss",
     max_trials=20,
     executions_per_trial=1,
@@ -219,10 +249,11 @@ def hyperparam_optimisation(x: np.array, y: np.array):
     project_name="tuner_project",
     )
 
-    tuner.search(x, y,
-                 epochs=10,
-                 validation_split=0.3,
+    tuner.search(training_set[0], training_set[1],
+                 epochs=20,
+                 validation_data=validation_set,
                  shuffle=True,
+                 #batch_size = 100,
                  )
 
     models = tuner.get_best_models(num_models=1)
@@ -230,6 +261,10 @@ def hyperparam_optimisation(x: np.array, y: np.array):
     best_model.summary()
 
     return best_model
+
+
+def training_set_size_optimisation():
+    print()
 
 
 def saveModel(model: keras.models.Sequential):
@@ -243,8 +278,10 @@ if __name__ == '__main__':
 
 
 
-    training_set, validation_set, test_set = getLabeledData(0.7, 0.25,0.05)
-
+    training_frac = 0.1
+    validation_frac = 0.25
+    test_frac = 0.5
+    training_set, validation_set, test_set = getLabeledData(training_frac, validation_frac, test_frac)
 
 
 
@@ -252,13 +289,15 @@ if __name__ == '__main__':
 
     model,history = train_model(training_set, validation_set)
 
-    #model = hyperparam_optimisation(x,y)
-    #model, history = train_optimized_model(model,x,y)
+    #model = hyperparam_optimisation(training_set, validation_set)
+    #model, history = train_optimized_model(model,training_set, validation_set)
 
     #saveModel(model)
 
-    model = loadModel()
+    #model = loadModel()
 
+    evaluation_result = model.evaluate(test_set[0], test_set[1])
+    print(evaluation_result)
 
     test_set_pre = model.predict(test_set[0])
 
@@ -320,6 +359,8 @@ if __name__ == '__main__':
         # 'y_loc_pre.png',
         # 'y_sig_pre.png',
         #][i])
+
+        plt.title(f"Training: {training_frac}, Validation: {validation_frac}, Testing: {test_frac}")
 
         plt.savefig(labels[i] + '_pre.png')
 
