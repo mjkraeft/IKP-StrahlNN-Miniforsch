@@ -233,8 +233,8 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
     tuner = keras_tuner.BayesianOptimization(
     hypermodel=hypermodel,
     objective="val_loss",
-    max_trials=1,
-    executions_per_trial=1,
+    max_trials=10,
+    executions_per_trial=2,
     #num_initial_points=None,
     #alpha=0.0001,
     #beta=2.6,
@@ -250,7 +250,7 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
     )
 
     tuner.search(training_set[0], training_set[1],
-                 epochs=1,
+                 epochs=10,
                  validation_data=validation_set,
                  shuffle=True,
                  #batch_size = 100,
@@ -264,7 +264,7 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
 
 
 def training_set_size_optimisation():
-    training_set_fracs = np.arange(0.01,0.6,0.3)
+    training_set_fracs = np.arange(0.01,0.6,0.01)
     results = np.zeros((training_set_fracs.shape[0], 3), dtype=float)
 
 

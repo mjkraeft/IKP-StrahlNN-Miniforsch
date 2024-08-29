@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
 
 
-    param_values = saltelli.sample(problem, 2**17)
+    param_values = saltelli.sample(problem, 2**18)
 
 
     y = model.predict(param_values)
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     for i in range(numOutPuts):
         Si.append(sobol.analyze(problem,y[:,i],
                                 parallel=True,
-                                n_processors = 16,
+                                n_processors = 58,
                                 print_to_console=True,
         ))
 
