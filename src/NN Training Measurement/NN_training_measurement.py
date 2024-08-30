@@ -105,17 +105,17 @@ def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tup
 
     model = keras.models.Sequential([
         keras.Input(shape=(7,)),
-        keras.layers.Dense(200,
+        keras.layers.Dense(400,
                               activation= 'relu',
                               use_bias=True),
         keras.layers.Dropout(0.02),
         #tf.keras.layers.BatchNormalization(),
-        keras.layers.Dense(200,
+        keras.layers.Dense(400,
                               activation= 'relu',
                               use_bias=True),
         keras.layers.Dropout(0.02),
         #tf.keras.layers.BatchNormalization(),
-        keras.layers.Dense(50,
+        keras.layers.Dense(10,
                               activation= 'relu',
                               use_bias=True),
         #tf.keras.layers.Dropout(0.001),
@@ -134,7 +134,7 @@ def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tup
 
     # train the model
     history = model.fit(training_set[0], training_set[1],
-              epochs=20,
+              epochs=30,
               validation_data=validation_set,
               shuffle=True,
               )
@@ -278,10 +278,10 @@ def training_set_size_optimisation():
         test_frac = 0.05
         training_set, validation_set, test_set = getLabeledData(t_s, validation_frac, test_frac)
 
-        #model, history = train_model(training_set, validation_set)
+        model, history = train_model(training_set, validation_set)
 
-        model = hyperparam_optimisation(training_set, validation_set)
-        model, history = train_optimized_model(model, training_set, validation_set)
+        #model = hyperparam_optimisation(training_set, validation_set)
+        #model, history = train_optimized_model(model, training_set, validation_set)
 
         results[i] = model.evaluate(test_set[0], test_set[1])
 
@@ -321,6 +321,37 @@ def saveModel(model: keras.models.Sequential):
 
 def loadModel():
     return keras.models.load_model(model_file_path)
+
+def visualize_training_set_size_optimisation():
+
+    simple_model_training_set_opti_results = np.loadtxt('training_set_size_opti_1/training_set_size_opti.txt')
+    hyper_model_training_set_opti_results = np.loadtxt('training_set_size_opti/training_set_size_opti.txt')
+
+
+
+    for i in range(1,simple_model_training_set_opti_results.shape[1]):
+        plt.figure(dpi=800)
+
+        plt.plot(simple_model_training_set_opti_results[:, 0], simple_model_training_set_opti_results[:, i], label = "simple")
+        plt.plot(hyper_model_training_set_opti_results[:, 0], hyper_model_training_set_opti_results[:, i], label = "hyper")
+
+        plt.xlabel('training_frac')
+
+        plt.ylabel(['test_loss',
+                    'mean_absolute_error',
+                    'mean_squared_error',
+                    ][i-1])
+
+        plt.legend()
+
+        plt.grid()
+
+        plt.show()
+
+        plt.savefig('training_set_size_opti_1/compare/' +['test_loss',
+                  'mean_absolute_error',
+                  'mean_squared_error',
+                  ][i-1] + '.png')
 
 
 def visualize_model_testing(model: keras.models.Sequential, test_set):
@@ -388,6 +419,8 @@ def visualize_model_testing(model: keras.models.Sequential, test_set):
         plt.show()
 
 
+
+
 if __name__ == '__main__':
 
 
@@ -415,7 +448,9 @@ if __name__ == '__main__':
 
     #visualize_model_testing(model)
 
-    training_set_size_optimisation()
+    #training_set_size_optimisation()
+
+    visualize_training_set_size_optimisation()
 
         
 
