@@ -346,12 +346,14 @@ def visualize_training_set_size_optimisation():
 
         plt.grid()
 
-        plt.show()
+
 
         plt.savefig('training_set_size_opti_1/compare/' +['test_loss',
                   'mean_absolute_error',
                   'mean_squared_error',
                   ][i-1] + '.png')
+
+        plt.show()
 
 
 def visualize_model_testing(model: keras.models.Sequential, test_set):

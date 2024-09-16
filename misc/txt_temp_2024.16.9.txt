@@ -1,0 +1,73 @@
+\documentclass[
+    german,
+    type=intern,
+    accentcolor=9c,
+    marginpar=false
+]{tudapub}
+\usepackage{graphicx}   %including graphics
+
+\usepackage{soul}       %highlighting, underlining, etc
+
+\title{IKP-StrahlNN-Miniforsch}
+\author{Maximilian Kraeft}
+\date{August 2024}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Eigenständigkeitserklärung}
+
+\section{Einleitung}
+
+%hier follows wierd mischmasch auf abstract and introduction
+
+Bei einem Teilchenbeschleuniger werden verschiedene mikroskopische Teilchen, z.B. Elektronen oder Protonen, mithilfe von elektrischen und magnetischen Felder beschleunigt, gelenkt und auf ein Ziel (Target) gelenkt. Die magnetische Felder werden dabei von verschieden Elektromagneten erzeugt (z.B. Dipole/Steerer, Quadropole). Dabei ist das gesammte System chaotisch. Der Einfluss der Einstellparameter (Stromstärke) auf die Strahleigenschaften (Strahlbreite, \hl{Versatz}) ist daher schwer vorhersagbar.
+
+Dieses Projekt findet am Injektor des S-DALINAC (elektronen Beschleuniger des IKP Tu Darmstadt) stadt. \hl{beschreiben}
+
+Während einer Wartungsphase im \hl{Juli ?} 2024 wurde einer Data-Mining Messung im Injektor durchgeführt. Aufgund dieser Messreihe wird ein Neuronales Netzwerk erstellt, welches das vermessene Verhalten des Teilchenstrahls möglichst genau approximieren soll. \hl{here Data analysis steps} Dieses Surrogate Modell konnte dann auf die Messdaten der Messung im Injektor als auch auf die Daten einer Strahlendynamiksimultation angewendet werden. Anschließend wurde noch eine Sobol-Sensitivitätsanalyse des trainierten Neuronalen Netzwerks durchgeführt werden.
+
+\section{Hintergrund}
+
+\subsection{Elektrodynamische Hintergründe}
+\subsubsection{Teilchenbahnen}
+
+\subsection{Aufbau Beschleuniger}
+\subsubsection{Arten /Funktionsweise Elektromagneten}
+\subsubsection{Aufbau S-DALINAC}
+\subsubsection{Schweirigkeiten Strahldynamicvorhersagen}
+%bestehende Symulationen
+
+
+\subsection{Neuronale Netzwerke}
+\subsection{SOBOL-Sensivitätsanalyse}
+
+
+\section{Aufbau}
+%Magnetabfolge
+%Kamera / Target
+
+\section{Data Aquisition}
+\subsection{Messabfolge}
+\subsection{Data Vorverarbeitung}
+
+\section{Trainieren NN}
+
+%trainieren hier
+% erste trainingsresultate
+
+\subsection{Fein-/Hyperparametertunen}
+\subsection{Dropoutlayer}
+\subsection{Untersuchung minimale Größe Notwendiger Trainingsatz}
+\subsection{Sobol-Sensivitätsanalyse}
+
+
+
+\section{Strahlendynmaicsimulation mit Elegant}
+
+\subsection{siehe Leitfadendatei}
+
+\end{document}
