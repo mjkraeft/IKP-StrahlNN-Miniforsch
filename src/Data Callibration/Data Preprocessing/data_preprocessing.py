@@ -66,15 +66,18 @@ def calculateScale():
 
     return scale, center
 
+
+
 def scale_data_to_mm(data_file_path = '', data_save_path = ''):
     scale, center = calculateScale()
+    center_used_offset = [116,312]
 
     print((scale, center))
 
     data = np.loadtxt(data_file_path, unpack=True)[0:4,:]
 
-    data[0] = (data[0]-center[1])*scale
-    data[2] = (data[2]-center[0])*scale
+    data[0] = (data[0]-center[1]+center_used_offset[0])*scale
+    data[2] = (data[2]-center[0]+center_used_offset[1])*scale
 
     data[1] = (data[1]) * scale
     data[3] = (data[3]) * scale

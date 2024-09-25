@@ -82,8 +82,8 @@ def getLabeledData(training_frac: float, validation_frac: float, test_frac: floa
     y_test_set = y[-testing_index:-1]
 
 
-
     return (x_training_set, y_training_set), (x_validation_set, y_validation_set), (x_test_set, y_test_set)
+
 
 
 def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
