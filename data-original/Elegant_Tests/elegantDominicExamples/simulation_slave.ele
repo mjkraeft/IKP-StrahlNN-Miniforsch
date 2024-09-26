@@ -60,7 +60,7 @@
         enforce_rms_values[0]    = 1,
         enforce_rms_values[1]    = 1,
         enforce_rms_values[2]    = 1, 
-        Po                       = 1.103551638, !fuer E_ges = 761 keV beam
+        Po                       = 1.103551638, !fuer E_ges = 761 keV beam (with 511 keV resting energy)
         !bunch                    = %s.bun,
 &end
 
