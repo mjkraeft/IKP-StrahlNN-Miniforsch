@@ -1,0 +1,877 @@
+Running elegant at Tue Dec  3 17:26:58 2013
+
+This is elegant 25.3.1, Nov 18 2013, by M. Borland, N. Carmignani, W. Guo, V. Sajaev, C.-X. Wang, Y. Wang, Y. Wu, and A. Xiao.
+Link date: Nov 18 2013 08:39:06
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:1886
+&run_setup
+    lattice = parTrack.lte,
+    use_beamline = par,
+    rootname = {NULL},
+    output = {NULL},
+    centroid = {NULL},
+    sigma = {NULL},
+    final = {NULL},
+    acceptance = {NULL},
+    losses = {NULL},
+    magnets = {NULL},
+    semaphore_file = {NULL},
+    parameters = {NULL},
+    combine_bunch_statistics = 0,
+    wrap_around = 1,
+    final_pass = 0,
+    default_order = 2,
+    concat_order = 0,
+    print_statistics = 0,
+    random_number_seed = 987654321,
+    correction_iterations = 1,
+    echo_lattice = 0,
+    p_central = 8.800000000000000e+02,
+    p_central_mev = 0.000000000000000e+00,
+    always_change_p0 = 0,
+    load_balancing_on = 0,
+    random_sequence_No = 1,
+    expand_for = {NULL},
+    tracking_updates = 1,
+    search_path = {NULL},
+    element_divisions = 0,
+&end
+Seeding random number generators
+length of beamline PAR per pass: 3.066670000000001e+01 m
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:1970
+&chromaticity
+    sextupoles = "SDH SFH",
+    dnux_dp = 3.000000000000000e+00,
+    dnuy_dp = 3.000000000000000e+00,
+    sextupole_tweek = 1.000000000000000e-03,
+    correction_fraction = 9.000000000000000e-01,
+    n_iterations = 10,
+    tolerance = 1.000000000000000e-05,
+    strength_log = {NULL},
+    change_defined_values = 1,
+    strength_limit = 0.000000000000000e+00,
+    use_perturbed_matrix = 0,
+    exit_on_failure = 0,
+    verbosity = 2,
+&end
+Computing periodic Twiss parameters.
+98 matrices recomputed for periodic Twiss parameter computation
+
+family           dCHROMx/dK2        dCHROMy/dK2
+       SDH:    -9.3200884e-02      6.9524190e-01
+       SFH:    -4.8602662e-01      4.5901852e-02
+
+family           dK2/dCHROMx        dK2/dCHROMy
+       SDH:     1.3758394e-01      1.4567922e+00
+       SFH:    -2.0838837e+00     -2.7935572e-01
+
+statistics:    ET:     00:00:00 CP:    0.04 BIO:0 DIO:0 PF:0 MEM:2045
+&run_control
+    n_steps = 1,
+    bunch_frequency = 0.000000000000000e+00,
+    n_indices = 0,
+    n_passes = 1,
+    reset_rf_for_each_step = 1,
+    first_is_fiducial = 0,
+    restrict_fiducialization = 0,
+    reset_scattering_seed = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.04 BIO:0 DIO:0 PF:0 MEM:2045
+&bunched_beam
+    bunch = {NULL},
+    n_particles_per_bunch = 1,
+    time_start = 0.000000000000000e+00,
+    matched_to_cell = {NULL},
+    emit_x = 0.000000000000000e+00,
+    emit_nx = 0.000000000000000e+00,
+    beta_x = 1.000000000000000e+00,
+    alpha_x = 0.000000000000000e+00,
+    eta_x = 0.000000000000000e+00,
+    etap_x = 0.000000000000000e+00,
+    emit_y = 0.000000000000000e+00,
+    emit_ny = 0.000000000000000e+00,
+    beta_y = 1.000000000000000e+00,
+    alpha_y = 0.000000000000000e+00,
+    eta_y = 0.000000000000000e+00,
+    etap_y = 0.000000000000000e+00,
+    use_twiss_command_values = 0,
+    Po = 8.800000000000000e+02,
+    sigma_dp = 0.000000000000000e+00,
+    sigma_s = 0.000000000000000e+00,
+    dp_s_coupling = 0.000000000000000e+00,
+    emit_z = 0.000000000000000e+00,
+    beta_z = 0.000000000000000e+00,
+    alpha_z = 0.000000000000000e+00,
+    momentum_chirp = 0.000000000000000e+00,
+    one_random_bunch = 1,
+    save_initial_coordinates = 1,
+    limit_invariants = 0,
+    symmetrize = 0,
+    halton_sequence[0] = 0, 0, 0,
+    halton_radix[0] = 0, 0, 0, 0, 0, 0,
+    optimized_halton = 0,
+    randomize_order[0] = 0, 0, 0,
+    limit_in_4d = 0,
+    enforce_rms_values[0] = 0, 0, 0,
+    distribution_cutoff[0] = 2.000000000000000e+00, 2.000000000000000e+00, 2.000000000000000e+00,
+    distribution_type[0] = gaussian, gaussian, gaussian,
+    centroid[0] = 0.000000000000000e+00, 0.000000000000000e+00, 0.000000000000000e+00, 0.000000000000000e+00, 
+        0.000000000000000e+00, 0.000000000000000e+00,
+    first_is_fiducial = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.04 BIO:0 DIO:0 PF:0 MEM:2045
+&track
+    center_on_orbit = 0,
+    center_momentum_also = 1,
+    offset_by_orbit = 0,
+    offset_momentum_also = 1,
+    soft_failure = 1,
+    use_linear_chromatic_matrix = 0,
+    longitudinal_ring_only = 0,
+    ibs_only = 0,
+    stop_tracking_particle_limit = -1,
+&end
+tracking step 1
+
+Adjusting chromaticities:
+initial chromaticities:  -6.290009e-01  3.772852e+00
+Change for family 0 (8 sextupoles): -5.639331e-01
+Change for family 1 (4 sextupoles): -6.611864e+00
+resulting chromaticities:  2.637100e+00  3.077285e+00
+min, max sextupole strength:  -8.267328e+00  5.394804e+00  1/m^2
+Change for family 0 (8 sextupoles): -5.639331e-02
+Change for family 1 (4 sextupoles): -6.611864e-01
+resulting chromaticities:  2.963710e+00  3.007729e+00
+min, max sextupole strength:  -8.928514e+00  5.338411e+00  1/m^2
+Change for family 0 (8 sextupoles): -5.639331e-03
+Change for family 1 (4 sextupoles): -6.611864e-02
+resulting chromaticities:  2.996371e+00  3.000773e+00
+min, max sextupole strength:  -8.994633e+00  5.332772e+00  1/m^2
+Change for family 0 (8 sextupoles): -5.639331e-04
+Change for family 1 (4 sextupoles): -6.611864e-03
+resulting chromaticities:  2.999637e+00  3.000077e+00
+min, max sextupole strength:  -9.001245e+00  5.332208e+00  1/m^2
+Change for family 0 (8 sextupoles): -5.639331e-05
+Change for family 1 (4 sextupoles): -6.611864e-04
+resulting chromaticities:  2.999964e+00  3.000008e+00
+min, max sextupole strength:  -9.001906e+00  5.332151e+00  1/m^2
+Change for family 0 (8 sextupoles): -5.639331e-06
+Change for family 1 (4 sextupoles): -6.611864e-05
+resulting chromaticities:  2.999996e+00  3.000001e+00
+min, max sextupole strength:  -9.001972e+00  5.332146e+00  1/m^2
+generating bunch 1.0
+tracking 1 particles
+1 particles transmitted, total effort of 1 particle-turns
+2800 multipole kicks done
+
+Tracking step completed   ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2045
+
+
+Finished tracking.
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2045
+&save_lattice
+    filename = %s.new,
+    suppress_defaults = 1,
+    output_seq = 0,
+&end
+parTrack.new opened in mode w
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2046
+&run_setup
+    lattice = parTrack.new,
+    use_beamline = par,
+    rootname = {NULL},
+    output = {NULL},
+    centroid = {NULL},
+    sigma = {NULL},
+    final = %s.fin,
+    acceptance = {NULL},
+    losses = {NULL},
+    magnets = %s.mag,
+    semaphore_file = {NULL},
+    parameters = {NULL},
+    combine_bunch_statistics = 0,
+    wrap_around = 1,
+    final_pass = 0,
+    default_order = 2,
+    concat_order = 0,
+    print_statistics = 0,
+    random_number_seed = 987654321,
+    correction_iterations = 1,
+    echo_lattice = 0,
+    p_central = 8.800000000000000e+02,
+    p_central_mev = 0.000000000000000e+00,
+    always_change_p0 = 0,
+    load_balancing_on = 0,
+    random_sequence_No = 1,
+    expand_for = {NULL},
+    tracking_updates = 1,
+    search_path = {NULL},
+    element_divisions = 0,
+&end
+Seeding random number generators
+length of beamline PAR per pass: 3.066670000000001e+01 m
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2035
+&alter_elements
+    name = *,
+    item = K3,
+    type = CSBEND,
+    exclude = {NULL},
+    value = 1.000000000000000e+02,
+    string_value = {NULL},
+    differential = 0,
+    multiplicative = 0,
+    verbose = 0,
+    allow_missing_elements = 0,
+    allow_missing_parameters = 0,
+    start_occurence = 0,
+    end_occurence = 0,
+    s_start = -1.000000000000000e+00,
+    s_end = -1.000000000000000e+00,
+    after = {NULL},
+    before = {NULL},
+&end
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2035
+&alter_elements
+    name = *,
+    item = K4,
+    type = CSBEND,
+    exclude = {NULL},
+    value = 1.000000000000000e+03,
+    string_value = {NULL},
+    differential = 0,
+    multiplicative = 0,
+    verbose = 0,
+    allow_missing_elements = 0,
+    allow_missing_parameters = 0,
+    start_occurence = 0,
+    end_occurence = 0,
+    s_start = -1.000000000000000e+00,
+    s_end = -1.000000000000000e+00,
+    after = {NULL},
+    before = {NULL},
+&end
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2035
+&twiss_output
+    filename = %s.twi,
+    matched = 1,
+    output_at_each_step = 1,
+    output_before_tune_correction = 0,
+    final_values_only = 0,
+    statistics = 0,
+    radiation_integrals = 0,
+    beta_x = 1.000000000000000e+00,
+    alpha_x = 0.000000000000000e+00,
+    eta_x = 0.000000000000000e+00,
+    etap_x = 0.000000000000000e+00,
+    beta_y = 1.000000000000000e+00,
+    alpha_y = 0.000000000000000e+00,
+    eta_y = 0.000000000000000e+00,
+    etap_y = 0.000000000000000e+00,
+    reference_file = {NULL},
+    reference_element = {NULL},
+    reference_element_occurrence = 0,
+    reflect_reference_values = 0,
+    concat_order = 3,
+    higher_order_chromaticity = 0,
+    higher_order_chromaticity_points = 5,
+    higher_order_chromaticity_range = 4.000000000000000e-04,
+    quick_higher_order_chromaticity = 0,
+    chromatic_tune_spread_half_range = 0.000000000000000e+00,
+    cavities_are_drifts_if_matched = 1,
+    compute_driving_terms = 0,
+    leading_order_driving_terms_only = 0,
+    local_dispersion = 1,
+    n_periods = 1,
+&end
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2291
+&run_control
+    n_steps = 1,
+    bunch_frequency = 0.000000000000000e+00,
+    n_indices = 1,
+    n_passes = 400,
+    reset_rf_for_each_step = 1,
+    first_is_fiducial = 0,
+    restrict_fiducialization = 0,
+    reset_scattering_seed = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2291
+&vary_element
+    index_number = 0,
+    index_limit = 0,
+    name = mal,
+    item = dp,
+    initial = 0.000000000000000e+00,
+    final = 0.000000000000000e+00,
+    differential = 0,
+    geometric = 0,
+    multiplicative = 0,
+    enumeration_file = deltaValues.sdds,
+    enumeration_column = delta,
+&end
+7 values of delta loaded from file deltaValues.sdds
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2355
+&closed_orbit
+    output = %s.clo,
+    start_from_centroid = 1,
+    start_from_dp_centroid = 0,
+    closed_orbit_accuracy = 1.000000000000000e-12,
+    closed_orbit_iterations = 500,
+    fixed_length = 0,
+    start_from_recirc = 0,
+    verbosity = 0,
+    iteration_fraction = 5.000000000000000e-01,
+    output_monitors_only = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.21 BIO:0 DIO:0 PF:0 MEM:2611
+&find_aperture
+    output = %s.aper,
+    search_output = {NULL},
+    boundary = %s.abnd,
+    mode = single-particle,
+    xmin = -5.000000000000000e-02,
+    xmax = 5.000000000000000e-02,
+    ymin = 0.000000000000000e+00,
+    ymax = 5.000000000000000e-02,
+    nx = 21,
+    n_splits = 0,
+    split_fraction = 5.000000000000000e-01,
+    desired_resolution = 1.000000000000000e-02,
+    ny = 21,
+    verbosity = 1,
+    assume_nonincreasing = 0,
+    offset_by_orbit = 0,
+    n_lines = 11,
+    optimization_mode = 0,
+&end
+vary counter reset
+98 matrices (re)computed
+tracking step 1.1
+0 matrices (re)computed after correction
+warning: closed orbit diverging--iteration stopped (accuracy requirement is 1.000000e-12)
+last error was 9.630033e-03, current is 2.309622e-02
+reduced iteration fraction to 2.500000e-01
+warning: closed orbit diverging--iteration stopped (accuracy requirement is 1.000000e-12)
+last error was 2.316222e-02, current is 1.009071e-01
+reduced iteration fraction to 1.250000e-01
+warning: closed orbit diverging--iteration stopped (accuracy requirement is 1.000000e-12)
+last error was 3.377838e-02, current is 7.279268e-02
+reduced iteration fraction to 6.250000e-02
+warning: closed orbit diverging--iteration stopped (accuracy requirement is 1.000000e-12)
+last error was 2.116115e-02, current is 4.568524e-02
+reduced iteration fraction to 3.125000e-02
+warning: closed orbit diverging--iteration stopped (accuracy requirement is 1.000000e-12)
+last error was 1.673550e-02, current is 4.014103e-02
+reduced iteration fraction to 1.562500e-02
+warning: closed orbit diverging--iteration stopped (accuracy requirement is 1.000000e-12)
+last error was 5.048240e-02, current is 1.072353e-01
+error: closed orbit did not converge to better than 1.072353e-01 after 500 iterations (requirement is 1.000000e-12)
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.780581e+00  9.777158e-02  2.142726e+00  2.095043e+00  1.281413e-02  1.226432e+01 -2.779594e+02  9.674968e+03
+  y:  1.345322e+01 -2.073520e-02  1.156030e+00 -4.406170e+00 -1.039197e-02  9.457397e+00 -1.057244e+03  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    no stable particles seen
+searching for aperture for y = 2.500000e-03 m
+    no stable particles seen
+searching for aperture for y = 5.000000e-03 m
+    no stable particles seen
+searching for aperture for y = 7.500000e-03 m
+    no stable particles seen
+searching for aperture for y = 1.000000e-02 m
+    no stable particles seen
+searching for aperture for y = 1.250000e-02 m
+    no stable particles seen
+searching for aperture for y = 1.500000e-02 m
+    no stable particles seen
+searching for aperture for y = 1.750000e-02 m
+    x = -1.500000e-02 m is stable
+    x = -1.500000e-02 m is stable
+searching for aperture for y = 2.000000e-02 m
+    no stable particles seen
+searching for aperture for y = 2.250000e-02 m
+    no stable particles seen
+searching for aperture for y = 2.500000e-02 m
+    no stable particles seen
+searching for aperture for y = 2.750000e-02 m
+    no stable particles seen
+searching for aperture for y = 3.000000e-02 m
+    no stable particles seen
+searching for aperture for y = 3.250000e-02 m
+    no stable particles seen
+searching for aperture for y = 3.500000e-02 m
+    no stable particles seen
+searching for aperture for y = 3.750000e-02 m
+    no stable particles seen
+searching for aperture for y = 4.000000e-02 m
+    no stable particles seen
+searching for aperture for y = 4.250000e-02 m
+    no stable particles seen
+searching for aperture for y = 4.500000e-02 m
+    no stable particles seen
+searching for aperture for y = 4.750000e-02 m
+    no stable particles seen
+searching for aperture for y = 5.000000e-02 m
+    no stable particles seen
+total effort:  3210 particle-turns   2 stable particles were tracked
+counter advanced:    1 
+values advanced: -1.000000e-02 
+1 matrices (re)computed
+tracking step 2.2
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  3.213684e+00 -3.547680e-03  2.119089e+00  2.365805e+00 -1.902920e-03  1.366389e+01 -4.163800e+02  1.180695e+04
+  y:  1.251962e+01  2.006338e-03  1.178071e+00 -2.628522e-02 -2.718270e-06  6.881263e+00 -5.852523e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    x = -1.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.500000e-03 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 5.000000e-03 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 7.500000e-03 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 1.000000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 1.250000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 1.500000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 1.750000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 2.000000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 2.250000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 2.500000e-02 m
+    x = -2.000000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 2.750000e-02 m
+    x = -2.000000e-02 m is stable
+    x = -5.000000e-03 m is stable
+searching for aperture for y = 3.000000e-02 m
+    x = -2.000000e-02 m is stable
+    x = -5.000000e-03 m is stable
+searching for aperture for y = 3.250000e-02 m
+    x = -2.000000e-02 m is stable
+    x = -1.000000e-02 m is stable
+searching for aperture for y = 3.500000e-02 m
+    x = -2.500000e-02 m is stable
+    x = -1.000000e-02 m is stable
+searching for aperture for y = 3.750000e-02 m
+    x = -2.500000e-02 m is stable
+    x = -1.000000e-02 m is stable
+searching for aperture for y = 4.000000e-02 m
+    x = -1.000000e-02 m is stable
+    x = -1.000000e-02 m is stable
+searching for aperture for y = 4.250000e-02 m
+    no stable particles seen
+searching for aperture for y = 4.500000e-02 m
+    no stable particles seen
+searching for aperture for y = 4.750000e-02 m
+    no stable particles seen
+searching for aperture for y = 5.000000e-02 m
+    no stable particles seen
+total effort:  18252 particle-turns   34 stable particles were tracked
+counter advanced:    2 
+values advanced: -5.000000e-03 
+1 matrices (re)computed
+tracking step 3.3
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.412251e+00 -1.623221e-04  2.149417e+00  6.915731e-01 -7.504980e-05  5.714928e+00 -1.221048e+02  1.635204e+04
+  y:  1.087931e+01  4.480621e-05  1.199776e+00 -4.662766e-04  2.620256e-06  4.080049e+00 -2.774242e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.500000e-03 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 5.000000e-03 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 7.500000e-03 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.000000e-02 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.250000e-02 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.500000e-02 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.750000e-02 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.000000e-02 m
+    x = -2.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.250000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.500000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.750000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 3.000000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 3.250000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 3.500000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 3.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 4.000000e-02 m
+    x = -1.500000e-02 m is stable
+    x = -5.000000e-03 m is stable
+searching for aperture for y = 4.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = -1.000000e-02 m is stable
+searching for aperture for y = 4.500000e-02 m
+    x = -1.500000e-02 m is stable
+    x = -1.500000e-02 m is stable
+searching for aperture for y = 4.750000e-02 m
+    no stable particles seen
+searching for aperture for y = 5.000000e-02 m
+    no stable particles seen
+total effort:  19697 particle-turns   38 stable particles were tracked
+counter advanced:    3 
+values advanced: 0.000000e+00 
+1 matrices (re)computed
+tracking step 4.4
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.001130e+00 -2.352647e-08  2.169700e+00  5.415295e-03 -5.074215e-08  2.999994e+00 -5.880311e+01  1.998871e+04
+  y:  9.802921e+00  2.691237e-08  1.216952e+00  1.677347e-07 -3.226723e-10  3.000000e+00 -1.730949e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.500000e-03 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 5.000000e-03 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 7.500000e-03 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.000000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.250000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.500000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.750000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.250000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 3.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 3.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 3.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 3.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 4.000000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 4.250000e-02 m
+    x = -3.500000e-02 m is stable
+    x = -5.000000e-03 m is stable
+searching for aperture for y = 4.500000e-02 m
+    x = -3.500000e-02 m is stable
+    x = -2.000000e-02 m is stable
+searching for aperture for y = 4.750000e-02 m
+    x = -2.000000e-02 m is stable
+    x = -5.000000e-03 m is stable
+searching for aperture for y = 5.000000e-02 m
+    x = -1.000000e-02 m is stable
+    x = -1.000000e-02 m is stable
+total effort:  21858 particle-turns   42 stable particles were tracked
+counter advanced:    4 
+values advanced: 5.000000e-03 
+1 matrices (re)computed
+tracking step 5.5
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.768816e+00  7.378188e-05  2.181120e+00 -3.368983e-01  3.267753e-04  1.762680e+00 -3.796328e+01  2.240238e+04
+  y:  9.068335e+00 -1.639126e-04  1.230503e+00 -5.756273e-04  3.517737e-07  2.488477e+00 -1.271035e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.500000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 5.000000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 7.500000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 1.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.500000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 2.750000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 3.000000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 3.250000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 3.500000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 3.750000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 2.000000e-02 m is stable
+searching for aperture for y = 4.000000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 4.250000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 4.500000e-02 m
+    x = -4.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 4.750000e-02 m
+    x = -4.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 5.000000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+total effort:  19798 particle-turns   42 stable particles were tracked
+counter advanced:    5 
+values advanced: 1.000000e-02 
+1 matrices (re)computed
+tracking step 6.6
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.615346e+00  5.963758e-04  2.187021e+00 -5.487122e-01  2.599304e-03  1.031588e+00 -2.842281e+01  2.393715e+04
+  y:  8.515435e+00 -1.188385e-03  1.241946e+00  5.723460e-04 -1.966285e-05  2.191407e+00 -1.015040e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.500000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 5.000000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 7.500000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 1.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 2.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 3.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 3.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 3.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 3.750000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 4.000000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 1.500000e-02 m is stable
+searching for aperture for y = 4.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 4.500000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 4.750000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 5.000000e-02 m
+    x = -1.000000e-02 m is stable
+    x = 5.000000e-03 m is stable
+total effort:  21216 particle-turns   42 stable particles were tracked
+counter advanced:    6 
+values advanced: 1.500000e-02 
+1 matrices (re)computed
+tracking step 7.7
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.496540e+00  6.940724e-04  2.189922e+00 -7.049235e-01  4.269076e-03  5.040406e-01 -2.288332e+01  2.494059e+04
+  y:  8.064416e+00 -1.786451e-03  1.252211e+00 -1.575783e-03  4.734733e-06  1.987793e+00 -8.462210e+01  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+searching for aperture for y = 0.000000e+00 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.500000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 5.000000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 7.500000e-03 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 1.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 1.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 1.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 1.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 2.750000e-02 m
+    x = -3.500000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 3.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 3.250000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 3.500000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 1.000000e-02 m is stable
+searching for aperture for y = 3.750000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 5.000000e-03 m is stable
+searching for aperture for y = 4.000000e-02 m
+    x = -3.000000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 4.250000e-02 m
+    x = -2.500000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 4.500000e-02 m
+    x = -1.500000e-02 m is stable
+    x = 5.204170e-18 m is stable
+searching for aperture for y = 4.750000e-02 m
+    x = -1.000000e-02 m is stable
+    x = -5.000000e-03 m is stable
+searching for aperture for y = 5.000000e-02 m
+    x = -1.000000e-02 m is stable
+    x = -5.000000e-03 m is stable
+total effort:  20485 particle-turns   42 stable particles were tracked
+Finished all tracking steps.
+Finished dynamic aperture search.
+End of input data encountered.
+statistics:    ET:     00:01:16 CP:   76.02 BIO:0 DIO:0 PF:0 MEM:2260
+=====================================================================================
+Thanks for using elegant.  Please cite the following reference in your publications:
+  M. Borland, "elegant: A Flexible SDDS-Compliant Code for Accelerator Simulation,"
+  Advanced Photon Source LS-287, September 2000.
+If you use a modified version, please indicate this in all publications.
+=====================================================================================

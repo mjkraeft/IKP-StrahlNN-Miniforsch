@@ -1,0 +1,190 @@
+Running elegant at Thu Sep 26 14:52:45 2024
+
+This is elegant 2023.3.0, Sep 13 2023, by M. Borland, J. Calvey, M. Carla', N. Carmignani, AJ Dick, Z. Duan, M. Ehrlichman, L. Emery, W. Guo, N. Kuklev, R. Lindberg, V. Sajaev, R. Soliday, Y.-P. Sun, M. Wallbank, C.-X. Wang, Y. Wang, Y. Wu, and A. Xiao.
+=====================================================================================
+Thanks for using elegant.  Please cite the following reference in your publications:
+  M. Borland, "elegant: A Flexible SDDS-Compliant Code for Accelerator Simulation,"
+  Advanced Photon Source LS-287, September 2000.
+If you use a modified version, please indicate this in all publications.
+=====================================================================================
+Link date: Sep 13 2023 04:37:07, SVN revision: 29680M
+statistics:    ET:  00:00:0.000 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:0
+&run_setup
+    lattice = simulation_lattice.lte,
+    use_beamline = GunToTarget,
+    rootname = {NULL},
+    output = {NULL},
+    centroid = {NULL},
+    bpm_centroid = {NULL},
+    sigma = {NULL},
+    final = %s.fin,
+    acceptance = {NULL},
+    losses = {NULL},
+    losses_include_global_coordinates = 0,
+    losses_s_limit[0] = -1.797693134862316e+308, 1.797693134862316e+308,
+    magnets = {NULL},
+    semaphore_file = {NULL},
+    parameters = {NULL},
+    suppress_parameter_defaults = 0,
+    rfc_reference_output = {NULL},
+    combine_bunch_statistics = 0,
+    wrap_around = 1,
+    final_pass = 0,
+    default_order = 2,
+    concat_order = 0,
+    print_statistics = 1,
+    show_element_timing = 0,
+    monitor_memory_usage = 0,
+    random_number_seed = 987654321,
+    correction_iterations = 1,
+    echo_lattice = 0,
+    p_central = 1.103551638000000e+00,
+    p_central_mev = 0.000000000000000e+00,
+    always_change_p0 = 0,
+    load_balancing_on = 0,
+    random_sequence_No = 1,
+    expand_for = {NULL},
+    tracking_updates = 1,
+    search_path = {NULL},
+    element_divisions = 20,
+    back_tracking = 0,
+    s_start = 0.000000000000000e+00,
+&end
+Seeding random number generators
+length of beamline GUNTOTARGET per pass: 2.000000000000001e+00 m
+statistics:    ET:  00:00:0.000 CP:    0.02 BIO:0 DIO:0 PF:0 MEM:0
+&run_control
+    n_steps = 1,
+    bunch_frequency = 0.000000000000000e+00,
+    n_indices = 0,
+    n_passes = 1,
+    n_passes_fiducial = 0,
+    terminate_on_failure = 0,
+    reset_rf_for_each_step = 1,
+    first_is_fiducial = 0,
+    restrict_fiducialization = 0,
+    reset_scattering_seed = 0,
+&end
+statistics:    ET:  00:00:0.000 CP:    0.02 BIO:0 DIO:0 PF:0 MEM:0
+&bunched_beam
+    bunch = {NULL},
+    n_particles_per_bunch = 100,
+    multiply_np_by_cores = 0,
+    time_start = 0.000000000000000e+00,
+    matched_to_cell = {NULL},
+    emit_x = 1.000000000000000e-06,
+    emit_nx = 0.000000000000000e+00,
+    beta_x = 1.000000000000000e+00,
+    alpha_x = 0.000000000000000e+00,
+    eta_x = 0.000000000000000e+00,
+    etap_x = 0.000000000000000e+00,
+    emit_y = 1.000000000000000e-06,
+    emit_ny = 0.000000000000000e+00,
+    beta_y = 1.000000000000000e+00,
+    alpha_y = 0.000000000000000e+00,
+    eta_y = 0.000000000000000e+00,
+    etap_y = 0.000000000000000e+00,
+    use_twiss_command_values = 0,
+    use_moments_output_values = 0,
+    Po = 1.103551638000000e+00,
+    sigma_dp = 0.000000000000000e+00,
+    sigma_s = 0.000000000000000e+00,
+    dp_s_coupling = 0.000000000000000e+00,
+    emit_z = 0.000000000000000e+00,
+    beta_z = 0.000000000000000e+00,
+    alpha_z = 0.000000000000000e+00,
+    momentum_chirp = 0.000000000000000e+00,
+    one_random_bunch = 1,
+    save_initial_coordinates = 1,
+    limit_invariants = 0,
+    symmetrize = 1,
+    halton_sequence[0] = 0, 0, 0,
+    halton_radix[0] = 0, 0, 0, 0, 0, 0,
+    optimized_halton = 0,
+    randomize_order[0] = 0, 0, 0,
+    limit_in_4d = 0,
+    enforce_rms_values[0] = 1, 1, 1,
+    distribution_cutoff[0] = 2.000000000000000e+00, 2.000000000000000e+00, 2.000000000000000e+00,
+    distribution_type[0] = gaussian, gaussian, gaussian,
+    centroid[0] = 0.000000000000000e+00, 0.000000000000000e+00, 0.000000000000000e+00, 0.000000000000000e+00, 
+        0.000000000000000e+00, 0.000000000000000e+00,
+    first_is_fiducial = 0,
+&end
+statistics:    ET:  00:00:0.000 CP:    0.02 BIO:0 DIO:0 PF:0 MEM:0
+&track
+    center_on_orbit = 0,
+    center_momentum_also = 1,
+    offset_by_orbit = 0,
+    offset_momentum_also = 1,
+    soft_failure = 1,
+    use_linear_chromatic_matrix = 0,
+    longitudinal_ring_only = 0,
+    ibs_only = 0,
+    stop_tracking_particle_limit = -1,
+    check_beam_structure = 0,
+    interrupt_file = %s.interrupt,
+&end
+Updating floor coordinates
+tracking step 1
+generating bunch 1
+tracking 100 particles
+26 Sep 24 14:52:45: This step establishes energy profile vs s (fiducial beam).
+26 Sep 24 14:52:45: Rf phases/references reset.
+26 Sep 24 14:52:45: Starting BEGINNING#1 (MARK) at s=0.000000e+00 to 0.000000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting STEERER1#1 (KICKER) at s=0.000000e+00 to 0.000000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#1 (DRIF) at s=0.000000e+00 to 5.000000e-02 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#2 (DRIF) at s=5.000000e-02 to 1.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#3 (DRIF) at s=1.000000e-01 to 1.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#4 (DRIF) at s=1.500000e-01 to 2.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#5 (DRIF) at s=2.000000e-01 to 2.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#6 (DRIF) at s=2.500000e-01 to 3.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#7 (DRIF) at s=3.000000e-01 to 3.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#8 (DRIF) at s=3.500000e-01 to 4.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#9 (DRIF) at s=4.000000e-01 to 4.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#10 (DRIF) at s=4.500000e-01 to 5.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#11 (DRIF) at s=5.000000e-01 to 5.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#12 (DRIF) at s=5.500000e-01 to 6.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#13 (DRIF) at s=6.000000e-01 to 6.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#14 (DRIF) at s=6.500000e-01 to 7.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#15 (DRIF) at s=7.000000e-01 to 7.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#16 (DRIF) at s=7.500000e-01 to 8.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#17 (DRIF) at s=8.000000e-01 to 8.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#18 (DRIF) at s=8.500000e-01 to 9.000000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#19 (DRIF) at s=9.000000e-01 to 9.500000e-01 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D1#20 (DRIF) at s=9.500000e-01 to 1.000000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting STEERER2#1 (KICKER) at s=1.000000e+00 to 1.000000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#1 (DRIF) at s=1.000000e+00 to 1.050000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#2 (DRIF) at s=1.050000e+00 to 1.100000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#3 (DRIF) at s=1.100000e+00 to 1.150000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#4 (DRIF) at s=1.150000e+00 to 1.200000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#5 (DRIF) at s=1.200000e+00 to 1.250000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#6 (DRIF) at s=1.250000e+00 to 1.300000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#7 (DRIF) at s=1.300000e+00 to 1.350000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#8 (DRIF) at s=1.350000e+00 to 1.400000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#9 (DRIF) at s=1.400000e+00 to 1.450000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#10 (DRIF) at s=1.450000e+00 to 1.500000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#11 (DRIF) at s=1.500000e+00 to 1.550000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#12 (DRIF) at s=1.550000e+00 to 1.600000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#13 (DRIF) at s=1.600000e+00 to 1.650000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#14 (DRIF) at s=1.650000e+00 to 1.700000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#15 (DRIF) at s=1.700000e+00 to 1.750000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#16 (DRIF) at s=1.750000e+00 to 1.800000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#17 (DRIF) at s=1.800000e+00 to 1.850000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#18 (DRIF) at s=1.850000e+00 to 1.900000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#19 (DRIF) at s=1.900000e+00 to 1.950000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting D2#20 (DRIF) at s=1.950000e+00 to 2.000000e+00 m, pass 0, 100 particles, memory 0 kB
+26 Sep 24 14:52:45: Starting ENDE#1 (MARK) at s=2.000000e+00 to 2.000000e+00 m, pass 0, 100 particles, memory 0 kB
+Dumping final properties data...done.
+Post-tracking output completed.
+Tracking step completed   ET:  00:00:0.000 CP:    0.02 BIO:0 DIO:0 PF:0 MEM:0
+
+
+Finished tracking.
+End of input data encountered.
+statistics:    ET:  00:00:0.000 CP:    0.03 BIO:0 DIO:0 PF:0 MEM:0
+=====================================================================================
+Thanks for using elegant.  Please cite the following reference in your publications:
+  M. Borland, "elegant: A Flexible SDDS-Compliant Code for Accelerator Simulation,"
+  Advanced Photon Source LS-287, September 2000.
+If you use a modified version, please indicate this in all publications.
+=====================================================================================

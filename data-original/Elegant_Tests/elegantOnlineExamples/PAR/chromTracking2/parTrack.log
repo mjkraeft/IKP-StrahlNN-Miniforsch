@@ -1,0 +1,568 @@
+This is elegant 25.2.0Beta, Jan 30 2013, by M. Borland, W. Guo, V. Sajaev, Y. Wang, Y. Wu, and A. Xiao.
+Link date: Jan 30 2013 15:25:19
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:1835
+&run_setup
+    lattice = parTrack.lte,
+    use_beamline = par,
+    rootname = {NULL},
+    output = {NULL},
+    centroid = {NULL},
+    sigma = {NULL},
+    final = %s.fin,
+    acceptance = {NULL},
+    losses = {NULL},
+    magnets = {NULL},
+    semaphore_file = {NULL},
+    parameters = {NULL},
+    combine_bunch_statistics = 0,
+    wrap_around = 1,
+    final_pass = 0,
+    default_order = 3,
+    concat_order = 0,
+    print_statistics = 0,
+    random_number_seed = 987654321,
+    correction_iterations = 1,
+    echo_lattice = 0,
+    p_central = 8.800000000000000e+02,
+    p_central_mev = 0.000000000000000e+00,
+    always_change_p0 = 0,
+    load_balancing_on = 0,
+    random_sequence_No = 1,
+    expand_for = {NULL},
+    tracking_updates = 1,
+    search_path = {NULL},
+    element_divisions = 0,
+&end
+Seeding random number generators
+length of beamline PAR per pass: 3.066670000000001e+01 m
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:1918
+&twiss_output
+    filename = %s.twi,
+    matched = 1,
+    output_at_each_step = 1,
+    output_before_tune_correction = 0,
+    final_values_only = 0,
+    statistics = 0,
+    radiation_integrals = 0,
+    beta_x = 1.000000000000000e+00,
+    alpha_x = 0.000000000000000e+00,
+    eta_x = 0.000000000000000e+00,
+    etap_x = 0.000000000000000e+00,
+    beta_y = 1.000000000000000e+00,
+    alpha_y = 0.000000000000000e+00,
+    eta_y = 0.000000000000000e+00,
+    etap_y = 0.000000000000000e+00,
+    reference_file = {NULL},
+    reference_element = {NULL},
+    reference_element_occurrence = 0,
+    reflect_reference_values = 0,
+    concat_order = 3,
+    higher_order_chromaticity = 0,
+    higher_order_chromaticity_points = 5,
+    higher_order_chromaticity_range = 4.000000000000000e-04,
+    quick_higher_order_chromaticity = 0,
+    chromatic_tune_spread_half_range = 0.000000000000000e+00,
+    cavities_are_drifts_if_matched = 1,
+    compute_driving_terms = 0,
+    leading_order_driving_terms_only = 0,
+    local_dispersion = 1,
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2174
+&run_control
+    n_steps = 1,
+    bunch_frequency = 0.000000000000000e+00,
+    n_indices = 1,
+    n_passes = 1024,
+    reset_rf_for_each_step = 1,
+    first_is_fiducial = 0,
+    restrict_fiducialization = 0,
+    reset_scattering_seed = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2174
+&alter_elements
+    name = MAL,
+    item = DX,
+    type = {NULL},
+    exclude = {NULL},
+    value = 1.000000000000000e-06,
+    string_value = {NULL},
+    differential = 0,
+    multiplicative = 0,
+    verbose = 0,
+    allow_missing_elements = 0,
+    allow_missing_parameters = 0,
+    start_occurence = 0,
+    end_occurence = 0,
+    s_start = -1.000000000000000e+00,
+    s_end = -1.000000000000000e+00,
+    after = {NULL},
+    before = {NULL},
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2174
+&alter_elements
+    name = MAL,
+    item = DY,
+    type = {NULL},
+    exclude = {NULL},
+    value = 1.000000000000000e-06,
+    string_value = {NULL},
+    differential = 0,
+    multiplicative = 0,
+    verbose = 0,
+    allow_missing_elements = 0,
+    allow_missing_parameters = 0,
+    start_occurence = 0,
+    end_occurence = 0,
+    s_start = -1.000000000000000e+00,
+    s_end = -1.000000000000000e+00,
+    after = {NULL},
+    before = {NULL},
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2174
+&vary_element
+    index_number = 0,
+    index_limit = 17,
+    name = mal,
+    item = dp,
+    initial = -1.000000000000000e-02,
+    final = 1.000000000000000e-02,
+    differential = 0,
+    geometric = 0,
+    multiplicative = 0,
+    enumeration_file = {NULL},
+    enumeration_column = {NULL},
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2174
+&closed_orbit
+    output = %s.clo,
+    start_from_centroid = 1,
+    start_from_dp_centroid = 0,
+    closed_orbit_accuracy = 1.000000000000000e-12,
+    closed_orbit_iterations = 40,
+    fixed_length = 0,
+    start_from_recirc = 0,
+    verbosity = 0,
+    iteration_fraction = 9.000000000000000e-01,
+    output_monitors_only = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2430
+&bunched_beam
+    bunch = {NULL},
+    n_particles_per_bunch = 1,
+    time_start = 0.000000000000000e+00,
+    matched_to_cell = {NULL},
+    emit_x = 0.000000000000000e+00,
+    emit_nx = 0.000000000000000e+00,
+    beta_x = 1.000000000000000e+00,
+    alpha_x = 0.000000000000000e+00,
+    eta_x = 0.000000000000000e+00,
+    etap_x = 0.000000000000000e+00,
+    emit_y = 0.000000000000000e+00,
+    emit_ny = 0.000000000000000e+00,
+    beta_y = 1.000000000000000e+00,
+    alpha_y = 0.000000000000000e+00,
+    eta_y = 0.000000000000000e+00,
+    etap_y = 0.000000000000000e+00,
+    use_twiss_command_values = 0,
+    Po = 8.800000000000000e+02,
+    sigma_dp = 0.000000000000000e+00,
+    sigma_s = 0.000000000000000e+00,
+    dp_s_coupling = 0.000000000000000e+00,
+    emit_z = 0.000000000000000e+00,
+    beta_z = 0.000000000000000e+00,
+    alpha_z = 0.000000000000000e+00,
+    momentum_chirp = 0.000000000000000e+00,
+    one_random_bunch = 1,
+    save_initial_coordinates = 1,
+    limit_invariants = 0,
+    symmetrize = 0,
+    halton_sequence[0] = 0, 0, 0,
+    halton_radix[0] = 0, 0, 0, 0, 0, 0,
+    optimized_halton = 0,
+    randomize_order[0] = 0, 0, 0,
+    limit_in_4d = 0,
+    enforce_rms_values[0] = 0, 0, 0,
+    distribution_cutoff[0] = 2.000000000000000e+00, 2.000000000000000e+00, 2.000000000000000e+00,
+    distribution_type[0] = gaussian, gaussian, gaussian,
+    centroid[0] = 0.000000000000000e+00, 0.000000000000000e+00, 0.000000000000000e+00, 0.000000000000000e+00, 
+        0.000000000000000e+00, 0.000000000000000e+00,
+    first_is_fiducial = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:2686
+&track
+    center_on_orbit = 1,
+    center_momentum_also = 1,
+    offset_by_orbit = 0,
+    offset_momentum_also = 1,
+    soft_failure = 1,
+    use_linear_chromatic_matrix = 0,
+    longitudinal_ring_only = 0,
+    ibs_only = 0,
+    stop_tracking_particle_limit = -1,
+&end
+vary counter reset
+98 matrices (re)computed
+tracking step 1.1
+generating bunch 1.1
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.143155e+00 -3.812005e-04  2.176304e+00 -3.599108e-03  5.101597e-04 -7.053977e-01 -1.273739e+01  1.865514e+04
+  y:  1.211678e+01 -3.112912e-04  1.176462e+00 -3.410246e-08  3.675490e-07  4.372756e+00 -3.046444e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 262        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+1300416 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:01 CP:    0.62 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    1 
+values advanced: -8.750000e-03 
+1 matrices (re)computed
+tracking step 2.2
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.126484e+00 -2.965931e-04  2.175434e+00 -2.042375e-04  3.916918e-04 -6.920304e-01 -1.308309e+01  1.880120e+04
+  y:  1.174955e+01 -2.209490e-04  1.181873e+00 -2.699153e-08  3.705393e-07  4.278981e+00 -2.810862e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+2600832 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    2 
+values advanced: -7.500000e-03 
+1 matrices (re)computed
+tracking step 3.3
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.109470e+00 -2.212677e-04  2.174579e+00  2.527460e-03  2.880889e-04 -6.797197e-01 -1.341351e+01  1.895332e+04
+  y:  1.141017e+01 -1.500527e-04  1.187170e+00 -2.094159e-08  3.735115e-07  4.192097e+00 -2.604507e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+3901248 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:02 CP:    1.85 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    3 
+values advanced: -6.250000e-03 
+1 matrices (re)computed
+tracking step 4.4
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.092130e+00 -1.559051e-04  2.173738e+00  4.601383e-03  1.996743e-04 -6.684866e-01 -1.372841e+01  1.911141e+04
+  y:  1.109528e+01 -9.584282e-05  1.192361e+00 -1.580320e-08  3.764645e-07  4.111174e+00 -2.422503e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+5201664 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:03 CP:    2.47 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    4 
+values advanced: -5.000000e-03 
+1 matrices (re)computed
+tracking step 5.5
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.074482e+00 -1.011482e-04  2.172910e+00  6.024776e-03  1.267459e-04 -6.583491e-01 -1.402767e+01  1.927539e+04
+  y:  1.080205e+01 -5.587952e-05  1.197453e+00 -1.145452e-08  3.793973e-07  4.035440e+00 -2.260972e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+6502080 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:04 CP:    3.08 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    5 
+values advanced: -3.750000e-03 
+1 matrices (re)computed
+tracking step 6.6
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.056541e+00 -5.760371e-05  2.172093e+00  6.806613e-03  6.957461e-05 -6.493218e-01 -1.431121e+01  1.944518e+04
+  y:  1.052808e+01 -2.798126e-05  1.202453e+00 -7.795132e-09  3.823090e-07  3.964248e+00 -2.116800e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+7802496 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:04 CP:    3.70 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    6 
+values advanced: -2.500000e-03 
+1 matrices (re)computed
+tracking step 7.7
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.038325e+00 -2.584442e-05  2.171287e+00  6.957481e-03  2.840399e-05 -6.414162e-01 -1.457907e+01  1.962070e+04
+  y:  1.027136e+01 -1.017728e-05  1.207367e+00 -4.741521e-09  3.851988e-07  3.897050e+00 -1.987458e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+9102912 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:05 CP:    4.31 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    7 
+values advanced: -1.250000e-03 
+1 matrices (re)computed
+tracking step 8.8
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.019849e+00 -6.410717e-06  2.170490e+00  6.489456e-03  3.449502e-06 -6.346408e-01 -1.483134e+01  1.980187e+04
+  y:  1.003014e+01 -6.699676e-07  1.212198e+00 -2.224760e-09  3.880658e-07  3.833384e+00 -1.870873e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+10400832 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:05 CP:    4.93 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    8 
+values advanced: 0.000000e+00 
+1 matrices (re)computed
+tracking step 9.9
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.001130e+00  1.868143e-07  2.169700e+00  5.415969e-03 -5.101707e-06 -6.290010e-01 -1.506820e+01  1.998861e+04
+  y:  9.802921e+00  2.195240e-06  1.216952e+00 -1.926170e-10  3.909098e-07  3.772852e+00 -1.765334e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+11696256 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:06 CP:    5.52 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:    9 
+values advanced: 1.250000e-03 
+1 matrices (re)computed
+tracking step 10.10
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.982183e+00 -6.535008e-06  2.168917e+00  3.751681e-03  2.909012e-06 -6.244998e-01 -1.528991e+01  2.017870e+04
+  y:  9.588399e+00 -4.584349e-08  1.221632e+00  1.432429e-09  3.937291e-07  3.715113e+00 -1.669415e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+12994176 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:07 CP:    6.14 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   10 
+values advanced: 2.500000e-03 
+1 matrices (re)computed
+tracking step 11.11
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.963023e+00 -2.703463e-05  2.168138e+00  1.512341e-03  2.761188e-05 -6.211373e-01 -1.549676e+01  2.037495e+04
+  y:  9.385435e+00 -5.956215e-06  1.226241e+00  2.665219e-09  3.965244e-07  3.659874e+00 -1.581918e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+14292096 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:07 CP:    6.75 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   11 
+values advanced: 3.750000e-03 
+1 matrices (re)computed
+tracking step 12.12
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.943665e+00 -6.174857e-05  2.167364e+00 -1.285338e-03  6.910895e-05 -6.189113e-01 -1.568914e+01  2.057779e+04
+  y:  9.193032e+00 -1.418120e-05  1.230783e+00  3.552538e-09  3.992948e-07  3.606879e+00 -1.501834e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+15590016 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:08 CP:    7.37 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   12 
+values advanced: 5.000000e-03 
+1 matrices (re)computed
+tracking step 13.13
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.924124e+00 -1.110943e-04  2.166592e+00 -4.623815e-03  1.274745e-04 -6.178175e-01 -1.586747e+01  2.078745e+04
+  y:  9.010307e+00 -2.343463e-05  1.235260e+00  4.126758e-09  4.020401e-07  3.555908e+00 -1.428304e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+16887936 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:09 CP:    7.98 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   13 
+values advanced: 6.250000e-03 
+1 matrices (re)computed
+tracking step 14.14
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.904413e+00 -1.754735e-04  2.165821e+00 -8.484846e-03  2.027556e-04 -6.178493e-01 -1.603221e+01  2.100351e+04
+  y:  8.836482e+00 -3.248717e-05  1.239675e+00  4.416110e-09  4.047600e-07  3.506766e+00 -1.360594e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+18185856 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:09 CP:    8.60 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   14 
+values advanced: 7.500000e-03 
+1 matrices (re)computed
+tracking step 15.15
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.884544e+00 -2.552747e-04  2.165049e+00 -1.284961e-02  2.949727e-04 -6.189987e-01 -1.618390e+01  2.122232e+04
+  y:  8.670861e+00 -4.015634e-05  1.244031e+00  4.445336e-09  4.074543e-07  3.459284e+00 -1.298075e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+19483776 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:10 CP:    9.22 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   15 
+values advanced: 8.750000e-03 
+1 matrices (re)computed
+tracking step 16.16
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.864531e+00 -3.508770e-04  2.164276e+00 -1.769882e-02  4.041208e-04 -6.212558e-01 -1.632309e+01  2.144629e+04
+  y:  8.512824e+00 -4.529787e-05  1.248328e+00  4.236337e-09  4.101227e-07  3.413313e+00 -1.240203e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+20784192 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:11 CP:    9.84 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+counter advanced:   16 
+values advanced: 1.000000e-02 
+1 matrices (re)computed
+tracking step 17.17
+0 matrices (re)computed after correction
+periodic Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  1.844386e+00 -4.626531e-04  2.163500e+00 -2.301285e-02  5.301699e-04 -6.246095e-01 -1.645036e+01  2.167540e+04
+  y:  8.361817e+00 -4.679816e-05  1.252570e+00  3.808057e-09  4.127652e-07  3.368721e+00 -1.186505e+02  0.000000e+00
+x acceptance limited by L1A ending at 3.066670e+01 m
+tracking 1 particles
+1 particles present after pass 0        1 particles present after pass 1024        
+1 particles transmitted, total effort of 1024 particle-turns
+22084608 multipole kicks done
+
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:11 CP:   10.46 BIO:0 DIO:0 PF:0 MEM:3363
+
+
+Finished tracking.
+End of input data encountered.
+statistics:    ET:     00:00:11 CP:   10.46 BIO:0 DIO:0 PF:0 MEM:2339
+=====================================================================================
+Thanks for using elegant.  Please cite the following reference in your publications:
+  M. Borland, "elegant: A Flexible SDDS-Compliant Code for Accelerator Simulation,"
+  Advanced Photon Source LS-287, September 2000.
+If you use a modified version, please indicate this in all publications.
+=====================================================================================
