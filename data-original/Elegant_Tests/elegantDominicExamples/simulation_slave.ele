@@ -1,0 +1,73 @@
+! ===================================================================================
+!
+! 	1. General parameters
+!
+
+! Standart Headline as used in other files
+! Not sure what p_central ist
+! element_divisions has to be choosen wisely: Jedes Element (das das Splitting auch unterstützt) wird in 20 Scheiben zerlegt. Dadurch entstehen smoothere Ergebnisse. Die Rechenzeit und die Größe der gespeicherten Dateien erhöht sich natürlich entsprechend um einen Faktor von bis zu 20. Da wir hier mit Bruce-Force einen großen Parameter-Raum durchlaufen, ist das nur bedingt sinnvoll!
+
+&run_setup
+	lattice = simulation_lattice.lte
+	use_beamline=GunToTarget
+	p_central=1.103551638 !fuer E_ges = 761 keV beam
+	final=%s.fin 
+    !output = %s.out,
+	!sigma=%s.sig
+	!centroid=%s.cen
+    !magnets = %s.mag,
+    print_statistics = 1
+	default_order = 2
+	element_divisions = 20
+&end
+
+! ===================================================================================
+!
+! 	2. Keine Variation
+!
+ 
+! Degrees of freedom
+&run_control 
+	n_indices=0 
+&end
+
+! ===================================================================================
+!
+! 	3. Define Start Bunch
+!
+
+! waehle sigma_x = 1 mm, sigma_x' = 1mrad
+
+! So far random bunch paramteres
+&bunched_beam
+        n_particles_per_bunch    = 100,
+        emit_x                  = 1e-6, !sigma_x * sigma_x' 
+        beta_x                   = 1, !sigma_x^2 /emit_x
+        alpha_x                  = 0,
+        emit_y                  = 1e-6,
+        beta_y                   = 1, !wie p0 (wenn normierte Emmitanz, so 1)
+        alpha_y                  = 0,
+        sigma_dp                 = 0, ! longitudinal ist egal
+        sigma_s                  = 0, ! longitudinal ist egal
+        dp_s_coupling            = 0, ! longitudinal ist egal
+        distribution_type[0]     = "gaussian", 
+        distribution_type[1]     = "gaussian", 
+        distribution_type[2]     = "gaussian", 
+        distribution_cutoff[0]   = 2.0, !before 3, hopefully more particles will be tracked this way
+        distribution_cutoff[1]   = 2.0,
+        distribution_cutoff[2]   = 2.0,
+        symmetrize               = 1,
+        enforce_rms_values[0]    = 1,
+        enforce_rms_values[1]    = 1,
+        enforce_rms_values[2]    = 1, 
+        Po                       = 1.103551638, !fuer E_ges = 761 keV beam
+        !bunch                    = %s.bun,
+&end
+
+ 
+! ===================================================================================
+!
+! 	4. Start Simulation
+!
+
+&track &end

@@ -1,0 +1,84 @@
+
+! Das andere Beispiel (Optimierung) dient als Einführung in elegant. Dieses sollte daher zuerst durchgearbeitet werden. Hier wird auf die Variierungsmethode eingegangen.
+! Mit Hilfe der Variierungsmethode kann man bis zu neun Größen variieren und dann elegant mit diesen variierten Größen ausführen.
+! Im Prinzip ist es einfach elegant über ein Array abgrasen lassen und man könnte das Problem auch über ein Python-Skript lösen, das immer neue lattice-Dateien erstellt.
+! Mit Python wäre es sinnvoll, wenn die Anzahl zu variierender Größen größer als 9 ist.
+! Der Vorteil wenn man elegant nutzt, ist die direkte Weiterverarbeitung mit SDDS, siehe dazu dieses Beispiel.
+
+! Zunächst wie vorher der Kopf, nichts neues aus ein anderes Lattice und eine andere Beamline:
+&run_setup
+	lattice=test-lattice_fuer_variierung.lte ! Anderes Lattice zum Testen
+	use_beamline=BEAMLINE1 ! Andere Beamline zum Testen
+	p_central=117.4168297455969
+	final=%s.fin 
+    output = %s.out,
+	sigma=%s.sig
+	centroid=%s.cen
+    magnets = %s.mag,
+    print_statistics = 1
+	default_order = 2
+	element_divisions = 20 ! Diesmal hier der Split: Jedes Element (das das Splitting auch unterstützt) wird in 20 Scheiben zerlegt. Dadurch entstehen smoothere Ergebnisse. Die Rechenzeit und die Größe der gespeicherten Dateien erhöht sich natürlich entsprechend um einen Faktor von bis zu 20. Da wir hier mit Bruce-Force einen großen Parameter-Raum durchlaufen, ist das nur bedingt sinnvoll!
+&end
+
+! Nichts neues, bloß die Ausgabe von Matrix-Infos (wahlweise bis zu dritter Ordnung)
+&matrix_output
+        SDDS_output = %s.mat
+		!SDDS_output_order = 3
+&end
+
+! Nichts neues. hier entscheiden, ob man die wachtes drin lassen möchte. auch in diesem fall verbrauchen sie eine menge festplattenspeicher. auch das wegschreiben der watches selbst kostet performance! möchte man aber an genau diesen stellen auswerten, muss man sie ja drin lassen. ich lass sie mal drin.
+&alter_elements name=*, type=WATCH, item=DISABLE, value=0 &end
+
+
+
+
+!------ Nachfolgend alles Variierungs-relevant --------->
+ 
+! Hier muss man angeben wieviele Freiheitsgrade man haben möchte. Möchte man z.B. eine ganze Ebene abgrasen, d.h. x und y unabhängig variieren, dann 2. Möchte man aber mehrere Größen aneinader koppeln, dann reduziert sich die Zahl. Als erstes Beispiel nehmen wir mal nur einen Freiheitsgrad.
+&run_control n_indices=1 &end
+
+! Nachfolgend kann man die Elemente angeben, deren Parameter variiert werden sollen.
+! Man MUSS bei Index "0" starten und bei "n-1" enden, wobei "n=n_indices" eben bei "&run_control" angegeben wurde.
+! Das nachfolgende Beispiel macht folgendes: Variere x, d.h. auf bewege den Strahl auf einer Geraden von 0 m bis 0,01 m und werte 101 Positionen aus, d.h. 101-1=100 äquidistante Abstände zwischen 0 m und 0,01 m.
+&vary_element name=MAL      item=DX    index_number=0 initial=0   final=0.01      index_limit=101 &end
+! Auf diese Weise wurden 101 Problemstellungen getrackt.
+! Die Ergebnisse befinden sich alle in jeweils einer Datei (.out, .sig, .cen, etc.). Jede dieser Dateien hat "Seiten" und auf jeder Seite steht das Ergebnis einer dieser Problemstellung. Jede Datei hat also 101 Seiten.
+! Für eine smarte Auswertung, siehe Erklärung im Skript "run3_variierung1_und_2.sh"
+ 
+!<------ Variierungs-relevant ----------------------------
+
+
+
+
+! Nichts Neues. Nachfolgend die Definition eines Anfangs-Bunches
+&bunched_beam
+        n_particles_per_bunch    = 1000,
+        emit_nx                  = 1e-6,
+		beta_x                   = 117.41683,
+		alpha_x                  = 0,
+        emit_ny                  = 1e-6,
+		beta_y                   = 117.41683,
+		alpha_y                  = 0,
+        sigma_dp                 = 5e-3,
+        sigma_s                  = 1.49896e-3,
+		dp_s_coupling            = 0,
+        distribution_type[0]     = "gaussian", 
+        distribution_type[1]     = "gaussian", 
+        distribution_type[2]     = "gaussian", 
+        distribution_cutoff[0]   = 3.0,
+        distribution_cutoff[1]   = 3.0,
+        distribution_cutoff[2]   = 3.0,
+        symmetrize               = 1,
+        enforce_rms_values[0]    = 1,
+        enforce_rms_values[1]    = 1,
+        enforce_rms_values[2]    = 1, 
+        Po                       = 117.4168297455969‬,
+		bunch                    = %s.bun,
+&end
+
+
+! Nichts Neues. Wenn man es sicht anguckt, sieht man, dass das "element_divisions" keinen Einfluss auf das Lattice hat, es bleibt unverändert. In den anderen outputs (.sig, .cen, etc.) hingegen macht sich das "element_divisions" bemerkbar! 
+&save_lattice filename=%s.new &end
+ 
+! Nichts Neues. Start der Simulation: 
+&track &end

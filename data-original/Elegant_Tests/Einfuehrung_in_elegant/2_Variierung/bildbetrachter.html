@@ -1,0 +1,29 @@
+
+<!-- HTML-Datei zum Betrachten der sich änderen Plot-Exporte -->
+
+<script language="JavaScript">
+window.setTimeout("location.reload()",100000000000); <!-- Zeitangabe in ms bis neu geladen wird -->
+</script>
+
+
+************************************************************************************************************
+
+
+
+<h2>links: finaler Schwerpunkt des Elektronen-Bunches am Ende der Strahlführung in Abhängigkeit von der initialen Auslenkung des Elektronen-Bunch-Schwerpunkts am Start der Strahlführung.</h2>
+<h2>mitte: Visualiserung des Trackings entlang der Strahlführung. So ist direkt ersichtlich, welchen Einfluss eine initiale Auslenkung hat. Jede farbige Linie ist eine individuelle Auslenkung. Da in "variierung1.ele" insgesamt 101 Auslenkungen definiert wurden, es aber nur begrenzt viele Farben in SDDS gibt, wiederholen sich die Farben; das gestaltet die Unterscheidung schwierig.</h2>
+<h2>rechts: Dasselbe wie in der Mitte aber ohne "element_divisions=20", weswegen der Graph als nicht-differenzierbar erscheint UND es sind nun nur 10 Auslenkungen statt 101 dargestellt, wodurch die Trajektorien besser verfolgbar sind. Wie man sieht, taucht ein rosaner, senkrechter Strich bei s=0m auf; das ist einfach ein Darstellungs-Bug, da einfach alle Punkte miteinander verbunden werden: Der erste Punkt ist bei &lt;x&gt;=0m, dann wirkt das MALIGN-Element, dass &lt;x&gt; instantan auf die gewünschte Auslenkung legt, also zu &lt;x&gt;&ne;0m führt. Für einen schönen Plot sollte man die Ergebnisse postprocessen und den Plot erst ab dem MALIGN-Element starten lassen. Auch wenn dieser Plot mit nur 10 Problemstellungen hier übersichtlicher ist, sei angemerkt, dass die 101 Problemstellungen für den ersten Plot (links) sinnvoll sind; wie man sehen kann ist das eine gekrümmte Kurve. Die Punkte sind auch dort nur geradlinig verbunden. Für nur 10 Problemstellungen wäre der Plot also weniger glatt bzw. nicht-differenzierbar.</h2>
+<h3>für mitte und rechts gilt: defokussierender Quadrupol=großes Rechteck nach unten, fokussierender Quadrupol=großes Rechteck nach oben, Cavity=Sinus-Welle, positiv ablenkender Dipol=kleines Rechteck nach oben. Wenn man mitte und rechts vergleicht, sieht man, dass "element_divisions=20" auch einen Einfluss auf die Darstellung der Elemente hat; in der mitte werden 20 defokussierende Quadrupole, 20 fokussierende Quadrupole, 20 Cavitys und 20 Dipole dargestellt!</h3>
+<img src="DX_vs_Cx.png" width="352" height="288" border="0" alt="">
+<img src="s_vs_Cx_vs_iteration_101.png" width="352" height="288" border="0" alt="">
+<img src="s_vs_Cx_vs_iteration_10.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<!-- alternativ ohne JavaScript dafür mit automatischer Weiterleitung
+<meta http-equiv="refresh" content="1; URL=bildbetrachter3.html">
+<img src="R16.png" name="webcam" width="352" height="288" border="0" alt="<hier Bild>">
+-->

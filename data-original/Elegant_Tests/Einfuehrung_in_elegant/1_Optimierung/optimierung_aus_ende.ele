@@ -1,0 +1,223 @@
+
+! Kommentare werden mit Ausrufezeichen gestartet und gelten bis Zeilenende
+! die Reihenfolge der Blöcke "&run_setup ... &end", &matrix_output ... &end", etc. ist wichtig! Guck in die Anleitung wenn du sie ändern solltest.
+! ansonsten gilt: ließ die manuals ... die sind lang und trotzdem an vielen stellen viel zu unausführlich. aber dennoch wichtig um alles zu verstehen. sind im ordner enthalten.
+
+! Unter dem Block "&run_setup" wird angegeben, welches lattice (=Beschleuniger) verwendet wird, welche beamline (=Sektion des Beschleunigers), was der Start-Sollimpuls ist und welche Dateien am Ende ausgegeben werden sollen
+&run_setup
+	lattice=optimierung_an.new ! mit ".new" werden die Lattice Dateien bezeichnet, die von elegant ermittelt werden, z.B. nach eine Optimierung oder wenn man Rechnungen in der Lattice Datei hat, werden sie dort final ausgewertet
+	! lattice=s-dalinac.lte ! ich hab dir mal nur die T-Rezirkulation dort definiert (und wichtig ist für dich eh nur die T1-Gerade, aber so ist es vielleicht verständlicher)
+	use_beamline=T1 ! nur die im oben angegebenen lattice angegebene beamline mit dem namen "T1" soll getrackt werden. WICHTIG: die unten im optimierungsprozess genannten elmente, die variiert werden dürfen, MÜSSEN sich in dieser beamline befinden, sonst verweigert elegant die ausführung. 
+	! use_beamline=T1_ALTERNATIVE ! Version mit alternativer Definition des Kollimators
+	p_central=117.4168297455969‬ ! Einheit ist m_0*c ... 1 m_0*c = 0.51099895 MeV/c  ... 117.4168297455969‬ m_0*c = 60 MeV/c
+	!p_central_mev=60 ! diesen Befehl für den Sollimpuls gibt es alternativ, wenn man lieber in MeV/c arbeitet. Einheit ist also MeV/c. Unten bei der Bunch Erstellung gibt es aber nur p0 in Einheit m_0*c also etwas sinnlos hier in MeV/c anzugeben ....
+	final=%s.fin 
+    output = %s.out,
+	sigma=%s.sig
+	centroid=%s.cen
+    magnets = %s.mag,
+    print_statistics = 1
+	default_order = 2 ! standard ist 2 und sollte auch beibehalten werden (siehe anmerkung unten bei "&optimization_setup". mehr siehe Manual. Möglichkeiten: 1, 2 oder 3 (aber Dipole gehen eh nur bis Ordnung 2)
+&end
+
+! Das Folgenden ist für dich vorerst irrelevant, ich lass es mal drin. Mit "&matrix_output" bekommt man mehr Infos zu den Transportmatrizen
+&matrix_output 
+        SDDS_output = %s.mat
+&end
+
+! Das Folgenden ist für dich vorerst irrelevant, ich lass es mal drin. Mit "&twiss_output" bekommt man mehr Infos zu den Twiss-Parametern
+&twiss_output 
+        filename = %s.twi
+		output_at_each_step = 1
+&end
+
+&alter_elements name=*, type=WATCH, item=DISABLE, value=0 &end ! "DISABLE value" ist 0 => watches bleiben
+! &alter_elements name=*, type=WATCH, item=DISABLE, value=1 &end ! "DISABLE value" ist 1 => watches werden nicht ausgewertet. spart speicherplatz und rechenzeit, sinnvoll im optimierungsprozess. der alter-befehl klappt nur, wenn die zu alternierende elemente auch in der verwendeten beamline vorkommen, ansonsten gibt elegant einen fehler aus. wird kein alter-befehl benötigt, zeile auskommentieren oder löschen
+
+
+! Das Folgende ist wichtig, wenn man etwas mit Brute-Force durchstimmen will. Für dich erstmal irrelevant. Hat auch nichts mit dem Optimierungsprozess zu tun. ich gehe in einer extra datei () darauf ein
+&run_control
+        n_indices=0,
+		n_steps = 1
+&end
+
+!------ Nachfolgend alles Optimierungs-relevant --------->
+
+! Mit dem Folgenden kann man den Solver einstellen. Ist schlecht dokumentiert was gute Werte sind. Mit diesen komm ich aber gut zu recht. Wenn ich keine Lösung finde, dann verändere ich die Werte mal. Lass es erstmal so. Für dein Problem ist das hinreichend.
+&optimization_setup ! &parallel_optimization_setup
+	matrix_order = 1, ! 1 ist standard für den optimierungsprozess. da man aber abseits des optimierungsprozesses mit order=2 oder höher rechnet (siehe oben bei "&run_setup"), kann man überlegen, auch hier eine 2 zu setzen. da es die rechenzeit aber erheblich erhöht, aber selten ein stark abweichendes optimales ergebnis liefert, nicht nötig.  mehr siehe Manual. Möglichkeiten: 1, 2 oder 3 (aber Dipole gehen eh nur bis Ordnung 2)
+	mode="minimize", ! für "maximieren" muss es "maximize" sein, für "minimieren", "größer als", "kleiner als" oder "gleich wie" muss es "minimize" sein. Statt eine Funktion zu maximieren kann man aber auch einfach ihr Negatives minimieren:  max(f(x))=min(-f(x))
+	method="simplex",       ! Möglichkeiten:   simplex    randomwalk      powell
+!	target=-10000,
+	n_passes = 5,
+	n_evaluations = 800,
+	n_restarts = 5,  
+	log_file = /dev/tty
+&end
+
+
+
+
+! Nachfolgend kann man die Zielfunktion(en) definieren. Es gibt die Möglichkeit, dass etwas "minimal", "maximal", "größer als", "kleiner als" oder "gleich wie" sein soll.
+! Für "maximal" muss Zeile 49 angepasst werden, für "minimal", "größer als", "kleiner als" oder "gleich wie" kann Zeile 49 so bleiben. Wie sich gleich zeigt, kann man Zielfunktionen kombinieren. Soll eine maximiert und die andere(n) minimiert werden, bietet es sich an das negative der ersten Funktion einfach zu minimieren statt die originalfunktion zu maximieren: max(f(x))=min(-f(x))
+! man muss bei "größer als", "kleiner als" oder "gleich wie" toleranzen angeben. Bei "gleich wie" leuchtet das auch ein, da etwas numerisch quasi nie "gleich" sein wird. Beispiel: soll etwas z.b. 0.006 sein, dann ist 0.0060001 oder 0.0059999 auch okay .... (Hier wäre die Toleranz also sehr klein) ... oder ist 0.0061 und 0.0059 auch ok (große toleranz)? also man muss angeben, wann der optimierungsprozess terminieren darf.
+! die finale zielfunktion ist die summe aller nachfolgend definierten zielfunktionen, gewichtet mit den angegebenen Gewichten.
+! es gilt: "segt" = "kleiner als", "selt" = "größer als", "sene" = "gleich wie" .... Dabei nicht von den Namen verwundern lassen, die vermeintlich das Gegenteil bedeuten: "segt"="soft-edge greater-than", "selt"="soft-edge less-than", "sene"="soft-edge not-equal" 
+! Bezüglich der REVERSE POLISH NOTATION gilt: "segt", "selt", "sene" sind Operatoren, die jeweils 3 Operanden (V1,V2,T (siehe Manual)) erwarten:
+! "V1 V2 T segt", "V1 V2 T selt", "V1 V2 T sene"
+ 
+! hat man ein mark direkt im lattice platziert und kommt es nur einmal vor, dann kann man hier kompakt vorgehen. in diesem fall ist das mark-element mit dem Namen "IP" dein interaction point. dort soll der fokus liegen? oder der strahl möglichst parallel, d.h. x' sehr klein? das kannst du hier einstellen. entweder mit "kleiner als" oder mit "minimiere"
+! jetzt kommt die zielfunktion an diese stellen wo die marks platziert wurden:
+! variante mit "kleiner als"
+&optimization_term     term="IP#1.Sx  1e-3 0.1e-3 segt ", weight=10 &end ! die Standardabweichung der Strahlausdehnung in x-Richtung (=Sx) soll kleiner ("segt") als 1e-3 Meter mit einer absoluten Toleranz von 0.1e-3 Meter sein. Defakto heißt das: Sx soll kleiner als 1.1e-3 Meter sein! Das Strahlrohr hat einen Durchmesser von 35mm, da müssen also plus-minus 3 Standardabweichungen (oder mehr mit Halo) problemlos rein passen können! beachte das bei deiner wahl. 
+&optimization_term     term="IP#1.Sxp 1e-4 0.1e-4 segt ", weight=10 &end ! gewicht hier "10" (unten kommt mal "1") und die 1 hinter # bedeutet, erstes (und hier auch einziges) Vorkommen des mark-elements "IP" in der verwendeten beamline
+&optimization_term     term="IP#1.Sy  1e-3 0.1e-3 segt ", weight=10 &end
+&optimization_term     term="IP#1.Syp 1e-4 0.1e-4 segt ", weight=10 &end 
+! variante mit "minimiere". verwende nur eine, deswegen ist diese auskommentiert:
+! &optimization_term     term="IP#1.Sx  ", weight=10 &end 
+! &optimization_term     term="IP#1.Sxp ", weight=10 &end 
+! &optimization_term     term="IP#1.Sy  ", weight=10 &end
+! &optimization_term     term="IP#1.Syp ", weight=10 &end 
+! noch smarter ist es, nicht die summe der abweichungen sondern die summe der quadratischen abweichungen zu minimieren! dazu einfach mit dem "<Element>#<Nr>.<Größe>" rechnen, z.B. quadrieren:
+! verwende nur eine, deswegen ist diese auskommentiert:
+! &optimization_term     term="IP#1.Sx  sqr", weight=10 &end 
+! &optimization_term     term="IP#1.Sxp sqr", weight=10 &end 
+! &optimization_term     term="IP#1.Sy  sqr", weight=10 &end
+! &optimization_term     term="IP#1.Syp sqr", weight=10 &end 
+
+! Hier einfach mal ein kompliziertes Beispiel einer Zielfunktion, die sich aus einer Rechnung zusammensetzt, für dein Problem irrelevant:
+! Das doppelte von Sy an der Stelle M111 minus Sxp an der Stelle IP soll 0.2 sein mit einer Toleranz von 4e-3:
+! &optimization_term     term="M111#4.Sy 2 * IP#1.Sxp - 0.2 4e-3 sene " &end
+ 
+ 
+! Mit dem Folgenden kann man schnell Elemente temporär ins lattice setzen. Z.B. die "mark"-Elemente, die für den Optimierungsprozess genutzt werden.  
+! in diesem beispiel setze ich hinter jede drift-sektion temporär ein mark mit dem namen "M111". wie gleich ersichtlich, sind das die orte, wo ich zielfunktionen platziere:
+&insert_elements
+        name = *
+		type = DRIF 
+		!type = QUAD DRIF SBEN
+        element_def = "M111: MARK,FITPOINT=1"
+		s_start = 0.1 ! hier kann man angeben, ob er nicht bei s=0 sondern erst ab strecke s=... anfangen soll
+&end 
+ 
+! variante mit "kleiner als"
+&optimization_term
+ term = "M111#@.Sx 3e-3 0.1e-3 segt",
+ field_string = @, ! platzhalter für "wann kommt es vor", siehe nächste zeile
+ field_initial_value = 1, field_final_value = 11, field_interval = 1, ! hier kann man angeben welche elemente man meint. ich meine alle mark-elemente mit dem namen M111, also von "1" bis "so viele wie es halt sind", hier also bis "11"
+ weight=1 ! gewichtung hier nur "1" da weniger intressant als strahl am interaction point
+&end
+
+! dito.  Strahlausdehnung in y-Richtung kleiner als 3 mm.
+&optimization_term
+ term = "M111#@.Sy 3e-3 0.1e-3 segt", 
+ field_string = @, 
+ field_initial_value = 1, field_final_value = 11, field_interval = 1,
+ weight=1
+&end
+
+! variante mit "minimiere" ... nutze nur eins, deswegen auskommentiert:
+! &optimization_term
+ ! term = "M111#@.Sx",
+ ! field_string = @,
+ ! field_initial_value = 1, field_final_value = 11, field_interval = 1,
+ ! weight=1
+! &end
+! &optimization_term
+ ! term = "M111#@.Sy", 
+ ! field_string = @, 
+ ! field_initial_value = 1, field_final_value = 11, field_interval = 1,
+ ! weight=1
+! &end
+! bzw besser mit QUADRATISCHEN Abweichungen ... nutze nur eins, deswegen auskommentiert:
+! &optimization_term
+ ! term = "M111#@.Sx sqr",
+ ! field_string = @,
+ ! field_initial_value = 1, field_final_value = 11, field_interval = 1,
+ ! weight=1
+! &end
+! &optimization_term
+ ! term = "M111#@.Sy sqr", 
+ ! field_string = @, 
+ ! field_initial_value = 1, field_final_value = 11, field_interval = 1,
+ ! weight=1
+! &end
+
+
+! hier die zielfunktion, dass möglichst viele elektronen erhalten bleiben, also wenige am Kollimator hängenbleiben. dazu nutzt man ein mark HINTER dem Kollimator als bezugspunkt. da ich das interaction-point-mark "IP" (länge=0) im lattice hinter den Kollimator "COL" (länge=0) gesetzt habe, ist das hier erfüllt.
+! Variante mit "größer als"
+&optimization_term     term="IP#1.Particles 900 1 selt ", weight=15 &end ! mehr als 900 elektronen sollen durchkommen. man muss hier absolut angeben. wenn du also mehr start elektronen angibst, musst du hier auch mehr angeben!
+! varinate mit "maximiere" bzw. "minimiere das negative": da wir mehrere zielfunktionen minimieren, so auch hier. daher minimiere -f(x):
+! nutze nur eins, deswegen auskommentiert:
+!&optimization_term     term="IP#1.Particles -1 *", weight=15 &end ! hat den vorteil dass das unabhängig von deiner angegebenen Anzahl  startelektronen ist!
+! oder wieder smarter durch stärkeren straf-term durch QUADRATISCHE fehler: und minimieren statt maximieren: max((f(x))^2)=min(-(f(x))^2)
+! nutze nur eins, deswegen auskommentiert:
+!&optimization_term     term="IP#1.Particles sqr -1 *", weight=15 &end
+
+
+
+! Hier steht, was innerhalb welchen Limits variiert werden darf. Bei dir: Die Fokussierstärke (item=K1) der Quadrupole (name=...). Die Limits kommen aus den physikalischen Limits der Gradienten. Lass die so.
+&optimization_variable     name=T1QU01, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end ! Mit der step_size kannst du etwas spielen. Ist sie zu grob, klappt der Optimierungsprozess nicht. Ist sie zu fein, stoppt er vorzeitig, da die Änderung pro Schritt kleiner als eine Abbruchgrenze ist
+&optimization_variable     name=T1QU02, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end ! maximales Limit für K1 (=k) ist 5.7 m^(-2), folgt aus k[m^(-2)]=299.792458*g[T/m]/(p/q[MeV/c/e]) und der Umrechnung von gesetztem Strom I zu Gradient g und dem maximalen zulässigen Strom. Der maximale Strom (=Nennstrom) und der Umrechnungsfaktor zum Gradient findet sich in der Tabelle die im Git verfügbar ist unter: /git/Strahldynamik-Simulationen/Magnet_Serien.ods
+&optimization_variable     name=T1QU03, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end ! k_max = 5.7 m^(-2) folgt aus dem Stromumrechungsfaktor 0.167 T/m/A (siehe Tabelle), dem maximalen Strom von 7 A (siehe Tabelle), einem angenommenen Soll-Impuls von 60 MeV/c und der Formel k[m^(-2)]=299.792458*g[T/m]/(p/q[MeV/c/e]); zur Sicherheit wurde konservativ abgerundet.
+&optimization_variable     name=T1QU04, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end ! Sollte der Soll-Impuls von 60 MeV/c abweichen, muss k_max entsprechend angepasst werden.
+&optimization_variable     name=T1QU05, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end ! Der minimale Strom ist das negative des maximalen Stroms. Folglich gilt auch k_min=-k_max
+&optimization_variable     name=T1QU06, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end
+&optimization_variable     name=T1QU07, item=K1, lower_limit=-5.7, upper_limit=5.7, step_size = 0.001   &end
+
+! Mit dem Folgenden kann man Zwangsbedingungen erstellen, falls z.B. zwei Quadrupole vom selben Netzteil angesteuert werden und damit ein Freiheitsgrad verloren geht. Ist in der T1-Sektion nicht der Fall, daher egal für dich. Im auskommentierten Beispiel gilt: Die Fokussierstärke von T1QU01 ist ein Freiheitsgrad und die von T1QU02 soll immer halbsogroß wie die von T1QU01 sein. Beachte die "Reverse Polish Notation"
+! &optimization_covariable name=T1QU02, item=K1, equation = "T1QU01.K1 2 /" &end
+! Weiteres Beispiel, wenn man z.B. die Position eines Elements (z.B. dein Interaction Point oder ein Quadrupol) in einem Optimierungsprozess variieren möchte, kann man die Drift DAVOR variieren und erzeugt als Zwangsbedingung, dass die Drift DANACH entsprechend ebenfalls variiert wird. Für dich vielleicht von Interesse, um den Interaction Point zu variieren, falls man am vorher gewünschten Ort nicht mit dem Ergebnis des Optimierungsprozesses zufrieden ist. Nachfolgend auf deinen Interaction Point angewendet, aber vorerst auskommentiert.
+! TD14A = Drift vor "Linse", TD14D = Drift nach "Linse"
+! &optimization_variable   name=TD14A, item=L, lower_limit=0.9, upper_limit=1.3‬, step_size = 0.001   &end  ! "2.2351 2 / 0.01 2 / -" = 1.11255‬ war es vorher im Lattice, also um diese Strecke plus-minus 20 cm variieren.
+! &optimization_covariable name=TD14D, item=L, equation = "1.11255‬ 2 * TD14A.L -" &end  ! "2.2351 2 / 0.01 2 / -" = 1.11255‬ war es vorher im Lattice, also das berücksichtigten!
+  
+!<---------- das war das Optimierungs-relevante ---------------
+
+
+
+! Nachfolgend die Definition eines Anfangs-Bunches
+&bunched_beam
+        n_particles_per_bunch    = 1000, ! anzahle elektronen. für den S-DALINAC gilt: 1 nA Strom = 2 Elektronen pro Bunch. Unabhängig davon sollte man schon 1000 oder mehr für ordentliche Statistik haben (es werden ja Schwerpunkt und Standardabweichungen berechnet). 5000 ist gut. Sollte der Optimierungsprozess zu lange brauchen (skaliert linear), kann man hier mal runter gehen.
+        emit_nx                  = 1e-6,! normierte emittanz im x-x'-Phasenraum in Einheit m ... hier =0.001^2/(0.000001/(60/0.51099895))
+		beta_x                   = 117.41683,! betatronfunktion für x-x'-Phasenraum in Einheit m
+		alpha_x                  = 0,! -0.5 mal die ableitung von betatronfunktion für x-x'-Phasenraum in Einheit 1
+        emit_ny                  = 1e-6,! normierte emittanz in y-y'-Phasenraum in Einheit m
+		beta_y                   = 117.41683,! betatronfunktion für y-y'-Phasenraum in Einheit m ... hier =0.001^2/(0.000001/(60/0.51099895))
+		alpha_y                  = 0,! -0.5 mal die ableitung von betatronfunktion für y-y'-Phasenraum in Einheit 1
+        sigma_dp                 = 5e-3,! standardabweichung der RELATIVEN impulsunschärfe, also Standardabweichung aller (p-p_0)/p_0 in Einheit 1
+        sigma_s                  = 1.49896e-3,! Standardabweichung der Ausdehnung des Bunches in z-Richtung in Einheit m
+		dp_s_coupling            = 0,! Korrelation zwischen dp und s => s*delta / (sigma_s * sigma_delta)
+        distribution_type[0]     = "gaussian", ! Normalverteilt oder Gleichverteilt in x-x'-Ebene
+        distribution_type[1]     = "gaussian", ! dito in y-y'-Ebene
+        distribution_type[2]     = "gaussian", ! dito in p-s-Ebene
+        distribution_cutoff[0]   = 3.0, ! Schneidet alle Elektronen ab, die außerhalb der 3-Sigma-Umgebung liegen. Strahl hat also keinen Halo. Gilt für x-x'-Ausdehnung
+        distribution_cutoff[1]   = 3.0, ! dito. Gilt für y-y'-Ausdehnung
+        distribution_cutoff[2]   = 3.0, ! dito. Gilt für p-s-Ausdehnung
+        symmetrize               = 1, ! Erzeugt nur Normalverteilung in positive Richtung und spiegelt dann nach negative Richtung. Dadurch lassen sich asymmetrische Verhalten erkennen.
+        enforce_rms_values[0]    = 1, ! Sorgt dafür, dass so simuliert wird, dass die oben angegebenen Verteilungen auch wirklich erreicht werden. Gilt für x-x'-Ausdehnung
+        enforce_rms_values[1]    = 1, ! dito. Gilt für y-y'-Ausdehnung
+        enforce_rms_values[2]    = 1, ! dito. Gilt für p-s-Ausdehnung
+        Po                       = 117.4168297455969‬ ! p0  in m_0*c ... entspricht p0 = 60 MeV/c
+		bunch                    = %s.bun, ! erzeugt einfach einen output des gerade eben definierten bunches. z.b. um die verteilung in anderen tracking tools zu nutzen oder um die verteilung plotten zu können
+&end
+
+! das nachfolgende könnte genutzt werden, wenn man eine individuelle Bunchverteilung schon hat und diese einlesen möchte. da wir aber mit dem absatz darüber eine startverteilung von elegant erzeugen lassen, ist das Einlesen nicht nötig.
+!&sdds_beam    
+!	input=./individuelle_bunch_verteilung.sdds ! zu importierende Bunch-Verteilung in einer SDDS-formatierten Datei (ASCII- oder Binärdatei). Details dazu sind im Ordner "3-externe_Bunch-Verteilung" erklärt.
+!	reuse_bunch=1 ! Falls man mehrere Bunch-Verteilungen hat, kann man diese auch in einer SDDS-Datei auf mehreren Seiten speichern. In diesem Fall werden also mehrere Trackings durchgeführt, eins pro Bunch-Verteilung, d.h. so viele Trackings wie Seiten in der SDDS-Datei. Mit "reuse_bunch=1" wird das ausgehebelt. Details siehe elegant Manual.
+!&end
+
+
+! Mit dem Folgenden wird elegant angewiesen den Optimierungsprozess auszuführen. Wie oben geschrieben ist die Reihenfolge der Blöcke wichtig. elegant verlangt diesen block NACH dem Bunch-Erzeugungs-Block
+!----------- Auslösung des Optimierungsprozesses -------------->
+	!&optimize &end ! möchte man den Optimierungsprozess nicht durchführen, dann ist nur ein "!" am Anfang dieser Zeile nötig, alles oben kann stehen bleiben, solange es in der definierten beamline auch vorkommt! sonst muss es oben auch auskommentiert werden!
+!<------------------------ Optimierungsprozesses ---------------
+
+! Mit dem Folgenden erstellt elegant eine lattice Datei, z.B. nach jedem Schritt der Optimierung. Da sie immer mit demselben Namen überschrieben wird, ist die finale Datei am Ende des Optimierungsprozesses die optimale Lattice Datei.
+&save_lattice filename=%s.new &end
+
+! Mit dem Folgenden weist man elegant an, dass alles obige fertig definiert ist und der "run" starten kann. nötig, da man in EINER .ele-Datei MEHRERE runs definieren kann. 
+&track &end
+
+

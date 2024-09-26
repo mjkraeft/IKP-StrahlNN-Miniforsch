@@ -1,0 +1,161 @@
+
+<!-- HTML-Datei zum Betrachten der sich änderen Plot-Exporte -->
+
+<script language="JavaScript">
+window.setTimeout("location.reload()",100000000000); <!-- Zeitangabe in ms bis neu geladen wird -->
+</script>
+
+<h1><span style="color:blue">Anmerkung: der Interaction Point befindet sich bei s = 14.38965 m</span></h1>
+************************************************************************************************************
+
+
+
+<h2>Ergebnisse von erstem Durchschuss mit gesetzten (nicht-optimalen) Startwerten für die Quadrupole:</h2>
+<img src="sigmaX_v1.png" width="352" height="288" border="0" alt="">
+<img src="sigmaY_v1.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="sigmaXp_v1.png" width="352" height="288" border="0" alt="">
+<img src="sigmaYp_v1.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">Ergebnisse des Optimierungsprozesses:</span></h2>
+<img src="sigmaX_v2.png" width="352" height="288" border="0" alt="">
+<img src="sigmaY_v2.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="sigmaXp_v2.png" width="352" height="288" border="0" alt="">
+<img src="sigmaYp_v2.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:blue">Beides in einem Plot:</span> schwarz = (nicht-optimale) startwerte ; <span style="color:red">rot = ergebnis des optimierungsprozesses</span> </h2>
+<img src="sigmaX_v3.png" width="352" height="288" border="0" alt="">
+<img src="sigmaY_v3.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="sigmaXp_v3.png" width="352" height="288" border="0" alt="">
+<img src="sigmaYp_v3.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">diesmal nur die ergebnisse des optimierungsprozesses, dafür x und y in einem plot</span> </h2>
+<img src="sigmaXY_v4.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="sigmaXpYp_v4.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">wieder nur die ergebnisse des optimierungsprozesses, dafür x, y, xp, yp in einem plot</span> </h2>
+<img src="sigmaXYXpYp_v5.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">und nochmal das gleiche, diesmal mit veränderter achsenbeschriftung und skalierten einheiten (mm statt m, mrad statt 1)</span> </h2>
+<img src="sigmaXYXpYp_v6.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">und nochmal das gleiche, diesmal mit zusätzlichem lattice im plot ... quads: x-fokus = nach oben, y-fokus = nach unten</span> </h2>
+<img src="sigmaXYXpYp_v7.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">nur Sx und Sy, wieder zurück zur Einheit Meter und zusätzlicher Plot der Apertur (Strahlrohr, Kollimator, etc.). Die Informationen zur Apertur liegen nämlich nativ auch nur in Meter vor und hätten entsprechend auch in mm umgerechnet werden müssen. Die Apertur ist natürlich nur für x und y, nicht aber für xp und yp sinnvoll. Ferner wird hier nur die Apertur in der x-Ausdehnung geplottet, die in diesem Fall identisch zur Apertur in y-Ausdehnung ist; sollten sich diese unterscheiden, sollten beide geplottet werden oder Sx und Sy in separaten Plots erscheinen! Außerdem ist Sx und Sy per Definition nicht-negativ. Daher ist die Apertur (nativ auch nicht-negativ) nur nach oben (positive Werte) geplottet. Sollte man die Schwerpunkte plotten (Cx und Cy), ist es sinnvoll die Apertur und das negative der Apertur zu plotten. Dazu z.B. mit <i>sddsprocess Datei_Name.twi -define=column,xApertureN,"xAperture -1 *",units=m Datei_Name.twi</i> arbeiten. Vorsicht, falls man einen Kollimator hat, der nicht symmetrisch zum Sollorbit platziert ist!</span> </h2>
+<img src="sigmaXY_v8.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:red">und nochmal, diesmal aber nicht die 1sigma-Umgebung, sondern die 3sigma-Umgebung geplottet. Mindestens die 3sigma-Umgebung sollte in die Apertur passen!</span> </h2>
+<img src="sigmaXY_v9.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+<br>
+************************************************************************************************************
+<br>
+************************************************************************************************************
+
+
+
+<h2>Plot der 2D-Projektionen der 6D-Verteilungen: <span style="color:red">Am Start</span></h2>
+<img src="x_vs_y_v1.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="x_vs_xp_v1.png" width="352" height="288" border="0" alt="">
+<img src="y_vs_yp_v1.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="t_vs_p_v1.png" width="352" height="288" border="0" alt="">
+<img src="t_vs_pmevc_v1.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2>Plot der 2D-Projektionen der 6D-Verteilungen: <span style="color:green">Am watch-Element</span></h2> 
+<img src="x_vs_y_v2.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="x_vs_xp_v2.png" width="352" height="288" border="0" alt="">
+<img src="y_vs_yp_v2.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="t_vs_p_v2.png" width="352" height="288" border="0" alt="">
+<img src="t_vs_pmevc_v2.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2>Plot der 2D-Projektionen der 6D-Verteilungen: <span style="color:blue">Am Ende</span></h2>
+<img src="x_vs_y_v3.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="x_vs_xp_v3.png" width="352" height="288" border="0" alt="">
+<img src="y_vs_yp_v3.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="t_vs_p_v3.png" width="352" height="288" border="0" alt="">
+<img src="t_vs_pmevc_v3.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<h2><span style="color:blue">Plot einer </span>groben<span style="color:blue"> vs. einer </span><span style="color:red">glatten</span><span style="color:blue"> Darstellung:</span></h2>
+<h3>Eine glatte Darstellung kann wichtig sein, um (a) schönere/realistischere Kurven zu bekommen und um (b) keine Informationen zu verlieren, denn in der groben Darstellung fehlt der Fokuspunkt bei ca. s=0.5 m. Das liegt daran, dass der Plot nur eine Verbindung von Punkten ist, und als Punkte nur die Ergebnisse hinter den Elementen existieren.</h3>
+<img src="sigmaX_grob_vs_glatt_schwach.png" width="352" height="288" border="0" alt="">
+<h3>Ist der Quadrupol so stark, dass er einen (oder sogar mehrere) Fokuspunkt(e) in sich trägt, geht auch dies völlig verloren.</h3>
+<img src="sigmaX_grob_vs_glatt_mittel.png" width="352" height="288" border="0" alt="">
+<br>
+<img src="sigmaX_grob_vs_glatt_stark.png" width="352" height="288" border="0" alt="">
+<!-- <a href="javascript:location.reload()" target="_self"><img src="neu_laden.png" width="352" height="288" border="0" alt="neu laden"></a> -->
+<br>
+************************************************************************************************************
+
+
+
+<!-- alternativ ohne JavaScript dafür mit automatischer Weiterleitung
+<meta http-equiv="refresh" content="1; URL=bildbetrachter3.html">
+<img src="R16.png" name="webcam" width="352" height="288" border="0" alt="<hier Bild>">
+-->

@@ -1,0 +1,202 @@
+
+! ============================================================
+! Erstmal die Erklärung, weiter unten der S-DALINAC
+! ============================================================
+
+! Nachfolgend zuerst einmal eine kurze, fiktive Strahlführung zu Erklärung der Syntax
+! Für jedes Element gibt es für jeden Parameter Default-Werte (siehe Manual). Man also nicht alle Parameter angeben bzw. gibt man Parameter nicht bewusst an, dann gelten die Default-Werte.
+DRIFT1: DRIF,L=1 ! Drift-Strecke von 1 Meter. So kann sich der Strahl entlang von einem Meter schon mal ausbreiten
+QUAD1: QUAD,L=0.2,K1=30 ! Quadrupol mit 0,2 Meter effektiver Länge und Fokussierstärke von 30 m^(-2)
+DRIFT2: DRIF,L=0.2
+DIPOL1: SBEN,L=0.3,ANGLE=-1.047197551196598,E1=-0.2809980095710871,E2=-0.2809980095710871,HGAP=0.015 ! Dipol mit effektiver Länge des gekrümmten Wegs von 0,3 Meter, den Biegeradius -1.047197551196598 rad = -60°, den Eintritts- und Austrittswinkel in rad, sowie der halben Spaltbreit zwischen den Joch-Polen in 0,015 Meter
+DRIFT3: DRIF,L=0.2
+MARKIERUNG: mark, fitpoint=1 ! ein mark ist eine Markierung auf die man Bezug nehmen will. z.b. möchte man den optimierungsalgorithmus nutzen um AN DIESER STELLE eine zielfunktion zu optimieren
+DRIFT4: DRIF,L=0.2
+WATCHELEMENT: watch,filename="%s.w01",mode=coord ! standardmäßig erhält man den 6D-Bunch nur für Beginn (.bun-Datei) und Ende (.out-Datei) ... möchte man zwischen drin auch mal den 6D-Bunch sehen, muss man an die gewünschte stelle ein "watch"-Element setzen. Als Dateiname bietet sich ".w" mit fortlaufender Nummer an, da man dann per Skript alle leicht ansprechen kann.
+DRIFT5: DRIF,L=0.2
+COL1: MAXAMP,X_MAX=0.01,Y_MAX=0.01,ELLIPTICAL=1 ! MAXAMP ist ein Kollimator, hier mit halber x-ausdehnung und halber y-ausdehnung von 0,01 Meter. Wenn "ELLIPTICAL=1" dann ist der Kollimator elliptisch (bzw. kreisförmig falls X_MAX=Y_MAX), sonst rechteckig. Er trägt zwar nicht zur entwicklung der "s"-Koordinate bei (d.h. er ist ein element der effektiven Länge=0) aber er gilt, bis ein anderer Kollimator kommt! d.h. wenn der Kollimator nur 10 cm lang ist, muss nach 10cm ein weiteres MAXAMP-Element kommen, das dann größer (so groß wie das strahlrohr) ist, um den "echten" Kollimator zu beenden
+DRIFT6: DRIF,L=0.2
+BEAMLINE1: LINE=(DRIFT1,QUAD1,DRIFT2,DIPOL1,DRIFT3,MARKIERUNG,DRIFT4,WATCHELEMENT,DRIFT5,COL1,DRIFT6) ! Sektion, die diese Elemente hintereinander schaltet und in der *.ele-Datei verwendet werden kann.
+
+
+! Nachfolgend noch eine kurze, fiktive Strahlführung mit mehr Möglichkeiten.
+DRIFT1A: DRIF,L=1 ! Keine DOPPELT-Benennung ... "DRIFT1" ist ja oben schon definiert (auch wenn man es später nicht in der *.ele-Datei einbinden sollte, weil man eine andere beamline nutzt) !
+QUAD1A: QUAD,L=0.2,K1="10" ! werden zahlen erwartet, sind keine anführungszeichen nötig. werden strings oder rechnungen angegeben, so sind anführungszeichen nötig. hier also unnötig
+DRIFT2A: DRIF,L="0.2 5 *" ! diesmal nötige anführungszeichen, da rechnung! WICHITG: elegant nutzt die REVERSE POLISH NOTATION => "operand1 [operand2 operand3 ...] operator" ... z.B. "7/4" => "7 4 /" ... oder verkettung: "1/cos(0)" => "1 0 cos /" ... um sicher zu sein kannst du in der cygwin-konsole auch mit "rpnl" rechnen und gucken, ob das gewollte rauskommt: 1/(((2+4)+8)/2)=1/7 kannst du mit "rpnl 1 2 4 + 8 + 2 / /" (ohne anführungszeichen) testen, die konsole gibt "0.142857142857143" aus 
+BEAMLINE2: LINE=(DRIFT1A,QUAD1A,DRIFT2A)
+
+! Man kann auch definierte beamlines aneinanderhängen:
+BEAMLINE3: LINE=(BEAMLINE1,BEAMLINE2)
+
+
+! und man kann auch elemente mehrfach nutzen:
+BEAMLINE4: LINE=(3*DRIFT1A) ! ist gleich bedeutend mit "BEAMLINE4: LINE=(DRIFT1A,DRIFT1A,DRIFT1A)"
+
+! und nicht nur einzelne elemente, sondern ganze beamlines lassen sich multiplizieren. abgesehen davon, dass man ring-beschleuniger explizit definieren kann, kann man z.b. 1000mal durch denselben ring fliegen durch: angenommen BEAMLINE1 ist ein sechstel eines ganzen rings (da ja in BEAMLINE1 um 60° abgelenkt wird), dann sind 1000 durchflüge gleich 6000 dieser beamline. klappt natürlich nur, wenn die 6 quadrupole pro ring gleich sind!
+GANZERFLUG: LINE=(6000*BEAMLINE1)
+
+! Für manche elemente wird mit dem matrix-formalismus gerechnet und man erhält nur die ergebnisse am ende des elements. möchte man "smoother" rechnen, kann man das z.b. wie folgt:
+DRIFT2ZERHACKT: DRIF,L="0.2 100 /"
+DRIFT2B: LINE=(100*DRIFT2ZERHACKT)
+QUAD1ZERHACKT: QUAD,L="0.2 100 /",K1=30
+QUAD1B: LINE=(100*QUAD1ZERHACKT)
+! verwendet man jetzt "QUAD1B" so erhält man dasselbe resultat wie mit "QUAD1" allerdings mit 100 zwischenschritten. das macht den plot "smoother" erhöht die rechenzeit allerdings für dieses element auch um den faktor 100. Vergleiche dazu diese Beamlines, die auch in den Beispielen vorkommen:
+grobe_beamline_schwach: line=(DRIFT2,QUAD1,DRIFT2)
+glatte_beamline_schwach: line=(DRIFT2B,QUAD1B,DRIFT2B)
+
+! Und das ganze nochmal mit einem Quadrupol der so stark ist, dass er einen Fokuspunkt in sich trägt:
+QUAD1mittel: QUAD,L=0.2,K1=200
+QUAD1ZERHACKTmittel: QUAD,L="0.2 100 /",K1=200
+QUAD1Bmittel: LINE=(100*QUAD1ZERHACKTmittel)
+grobe_beamline_mittel: line=(DRIFT2,QUAD1mittel,DRIFT2)
+glatte_beamline_mittel: line=(DRIFT2B,QUAD1Bmittel,DRIFT2B)
+
+! Und das ganze nochmal mit einem Quadrupol der so stark ist, dass er mehrere Fokuspunkte in sich trägt:
+QUAD1stark: QUAD,L=0.2,K1=2000
+QUAD1ZERHACKTstark: QUAD,L="0.2 100 /",K1=2000
+QUAD1Bstark: LINE=(100*QUAD1ZERHACKTstark)
+grobe_beamline_stark: line=(DRIFT2,QUAD1stark,DRIFT2)
+glatte_beamline_stark: line=(DRIFT2B,QUAD1Bstark,DRIFT2B)
+
+! statt sich später die Mühe zu machen in der *.lte-Datei alle Elemente wieder zu zerhacken, kann man auch in der *.ele-Datei im Bereich "&run_setup" die Option "element_divisions" nutzen, siehe Manual.
+
+! man kann auch variablen nutzen und damit rechnen. sinnvoll um den überblick zu behalten oder wenn dieselben werte häufig vorkommen
+% 9.4549e-2 sto VARIABLE1 ! mit "%" beginnt man so eine zeile. dann wird über den befehl "sto" der wert links "9.4549*10^(-2)" in die varible "VARIABLE1" gespeichert
+% 9.4549e-2 4 * sto VARIABLE2 ! auch rechnen ist möglich mit REVERSE POLISH NOTATION
+% VARIABLE1 VARIABLE2 + sto VARIABLE3 ! auch rechnen mit Variablen ist möglich
+
+!verwendung von zuvor definierten variablen:
+QUAD7: QUAD,L="VARIABLE1",K1=10 ! anführungszeichen nötig!
+QUAD8: QUAD,L=1,K1="VARIABLE2" ! anführungszeichen nötig!
+QUAD9: QUAD,L="VARIABLE1",K1="VARIABLE1 VARIABLE2 + VARIABLE3 / cos" ! anführungszeichen nötig!
+
+! Die Reihenfolge, wie man die Elemente definiert, ist egal, entscheidend ist die Reihenfolge IN DER BEAMLINE und dass die elemente definiert wurden, BEVOR man die beamline definiert. auch mehrfach nennung ist möglich!
+BEAMLINE5: LINE=(QUAD9,DRIFT1,QUAD8,DRIFT1,QUAD8,DRIFT2,QUAD7)
+
+
+! Weitere nützliche Elemente
+MAL: MALIGN, DX=0.01 ! zur Verwendung von instantanen "Kicks" auf den Strahl, In diesem Beispiel um den Strahl am Ort dieses Elements um 0,01 Meter auszulenken
+CAVITY1: RFCA, L=1, VOLT=1e6, PHASE=90, FREQ=3e9, CHANGE_P0=1 ! Für eine Cavity, wo der Energiegewinn durch eine Matrix berechnet wird
+CAVITY2: RFTMEZ0 ! Für eine Cavity, wo der Energiegewinn über das Tracking durch ein elektrisches Feld ermittelt wird. Das Feld muss importiert werden.
+MAGNET1000: BMAPXY ! Für einen Magneten, wo die Ablenkung über das Tracking durch ein magnetisches Feld ermittelt wird. Das Feld muss importiert werden.
+
+
+! ============================================================
+! nachfolgend die T-Rezirkulation des S-DALINAC
+! ============================================================
+
+
+! zur hervorhebung habe ich die fokussierstärken der veränderbaren quadrupole hier definiert und unten die variablen verwendet. das hält es übersichtlicher, so muss man nur in diesem block hier änderungen vornehmen und unten bleibt alles konstant.
+! T0:
+% -1.412873098527460e+01 sto kT0QU01
+%  1.444195133823712e+01 sto kT0QU02
+%  1.254554666301097e+01 sto kT0QU03
+! T1:
+% -2.451942361856856e+00 sto kT1QU01
+%  3.148416964197553e+00 sto kT1QU02
+% -1.987513067967539e+00 sto kT1QU03
+%  1.325414271534864e+00 sto kT1QU04
+%  2.144880663588288e-01 sto kT1QU05
+%  3.292974001059969e+00 sto kT1QU06
+% -1.521907807955237e+00 sto kT1QU07
+! T2:
+%  8.229455625103949e+00 sto kT2QU01
+%  1.264068237613930e+01 sto kT2QU02
+% -6.769629978732842e+00 sto kT2QU03
+
+
+!---- T-Rezirkulation ------
+
+TD1: DRIF,L=1.7201
+F0BM01T: SBEN,L=0.3157,ANGLE=0.6114673767899533,E1=0.2370157124208299,E2=-0.197920337176157,HGAP=0.015
+TD2: DRIF,L=1.0764
+T0QU01: QUAD,L=0.1958,K1="kT0QU01" ! anführungszeichen nötig!
+TD3: DRIF,L=0.1533
+T0QU02: QUAD,L=0.1958,K1="kT0QU02"
+TD4a: DRIF,L=0.2
+T0SE01: SEXT,L=0.0901
+TD4b: DRIF,L=0.2353
+T0BM01: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD5: DRIF,L=0.5458
+T0BM02: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD6: DRIF,L=0.5548
+T0BM03: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD7: DRIF,L=1.3574
+T0QU03: QUAD,L=0.1958,K1="kT0QU03"
+TD8a: DRIF,L=0.1
+T0SE02: SEXT,L=0.0901
+TD8b: DRIF,L=0.6668
+T0BM04: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+
+T0: LINE=(TD1,F0BM01T,TD2,T0QU01,TD3,T0QU02,TD4a,T0SE01,TD4b,T0BM01,TD5,T0BM02,TD6,T0BM03,TD7,T0QU03,TD8a,T0SE02,TD8b,T0BM04)
+
+TCOL1: MAXAMP,X_MAX="0.035 2 /",Y_MAX="0.035 2 /",ELLIPTICAL=1 ! da für dich nur T1 relevant ist, führe ich HIER ERST das strahlrohr ein. beachte, dass wir am s-dalinac unterschiedliche strahlrohrdurchmesser haben! bereits in dem dipol direkt vor und in dem dipol direkt nacht T1 ist der querschnitt anders!
+TD9: DRIF,L=0.5461
+T1QU01: QUAD,L=0.1632,K1="kT1QU01"
+TD10: DRIF,L=1.7677
+T1QU02: QUAD,L=0.1632,K1="kT1QU02"
+TD11: DRIF,L=3.4388
+T1QU03: QUAD,L=0.1632,K1="kT1QU03"
+TD12: DRIF,L=4.1329
+T1QU04: QUAD,L=0.1632,K1="kT1QU04"
+TD13: DRIF,L=2.5706
+T1QU05: QUAD,L=0.1632,K1="kT1QU05"
+TD14A: DRIF,L="2.2351 2 / 0.01 2 / -" ! war "TD14: DRIF,L=2.2351"
+TCOL2: MAXAMP,X_MAX=0.01,Y_MAX=0.01,ELLIPTICAL=1 ! MAXAMP ist ein Kollimator, hier mit halber x-ausdehnung und halber y-ausdehnung von 0,01 Meter. In diesem Fall der Start deiner Linse.
+TD14B: DRIF,L="0.01 2 /"
+IP: mark, fitpoint=1 ! Interaction-point wahllos auf halbe strecke zwischen T1QU05 und T1QU06 gesetzt und einen Kollimator (deine Linse) von 1 cm gewählt
+IPwatch: watch,filename="%s.w1",mode=coord
+TD14C: DRIF,L="0.01 2 /"
+TCOL3: MAXAMP,X_MAX="0.035 2 /",Y_MAX="0.035 2 /",ELLIPTICAL=1 ! zurück zum Strahlrohr als Strahlfänger
+TD14D: DRIF,L="2.2351 2 / 0.01 2 / -"
+T1QU06: QUAD,L=0.1632,K1="kT1QU06"
+TD15: DRIF,L=1.6433
+T1QU07: QUAD,L=0.1632,K1="kT1QU07"
+TD16: DRIF,L=1.3101
+
+T1: LINE=(TCOL1,TD9,T1QU01,TD10,T1QU02,TD11,T1QU03,TD12,T1QU04,TD13,T1QU05,TD14A,TCOL2,TD14B,IP,IPwatch,TD14C,TCOL3,TD14D,T1QU06,TD15,T1QU07,TD16)
+! statt wie zuvor mit einem MAXAMP-Element die Apertur zu verändern und dann eine Drift zu wählen, hätte man auch direkt das Kollimator-Element "ECOL" oder "RCOL" nutzen können (siehe Manual). "1x ECOL" ist gleichbedeutend mit "1x MAXAMP zum kleiner machen, 1x Drift, 1x MAXAMP zum größer machen". Da für dein Problem aber die Mitte der Linse (=Kollimator) von Bedeutung ist (da ist das Mark-Element gesetzt), hätte man auch den ECOL bzw. RCOL in zwei Elemente splitten müssen. Ein weiterer Vorteil: ECOL und RCOL kann man transversal versetzen, sodass der Schlitz nicht auf dem Sollorbit sitzen muss. Das geht bei MAXAMP nur, wenn man mit einem MALIGN-Element den Strahl versetzt; es gilt dann sogar: "1x ECOL" ist gleichbedeutend mit "1x MALIGN zum versetzen, 1x MAXAMP zum kleiner machen, 1x Drift, 1x MAXAMP zum wieder größer machen, 1x MALIGN zum wieder zurückversetzen".
+KOLLIMATOR_ALTERNATIVE: ECOL,L="0.01 2 /", X_MAX=0.01,Y_MAX=0.01
+T1_ALTERNATIVE: LINE=(TCOL1,TD9,T1QU01,TD10,T1QU02,TD11,T1QU03,TD12,T1QU04,TD13,T1QU05,TD14A,KOLLIMATOR_ALTERNATIVE,IP,IPwatch,KOLLIMATOR_ALTERNATIVE,TD14D,T1QU06,TD15,T1QU07,TD16)
+
+T2BM01: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD17a: DRIF,L=1.2593
+T2SE01: SEXT,L=0.0901
+TD17b: DRIF,L=0.1
+T2QU01: QUAD,L=0.1958,K1="kT2QU01"
+TD18: DRIF,L=0.8104
+T2BM02: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD19: DRIF,L=0.5176
+T2BM03: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD20: DRIF,L=0.5194
+T2BM04: SBEN,L=0.2899,ANGLE=0.632530010203021,E1=0.1623156204354727,E2=0.1623156204354727,HGAP=0.015
+TD21a: DRIF,L=0.5742
+T2SE02: SEXT,L=0.0901
+TD21b: DRIF,L=0.1
+T2QU02: QUAD,L=0.1958,K1="kT2QU02"
+TD22: DRIF,L=0.0877
+T2QU03: QUAD,L=0.1958,K1="kT2QU03"
+TD23: DRIF,L=0.9613
+F2BM03T: SBEN,L=0.3166,ANGLE=0.6114673767899533,E1=-0.1368338133563554,E2=0.2368411794956305,HGAP=0.015
+
+T2: LINE=(T2BM01,TD17a,T2SE01,TD17b,T2QU01,TD18,T2BM02,TD19,T2BM03,TD20,T2BM04,TD21a,T2SE02,TD21b,T2QU02,TD22,T2QU03,TD23,F2BM03T)
+
+TD24: DRIF,L=0.1826
+F3BM01T: SBEN,L=0.289,ANGLE=-0.08092917208572506,E1=-0.1024770070308471,E2=0.02369458992507502,HGAP=0.015
+TD25: DRIF,L=0.1965
+F3BM02T: SBEN,L=0.289,ANGLE=0.08094313471974102,E1=-0.02598446190369157,E2=0.1069136339894166,HGAP=0.015
+TD26: DRIF,L=0.1973
+F3BM03T: SBEN,L=0.2889,ANGLE=0.08094488004899301,E1=0.1088561854468863,E2=-0.02791130539789331,HGAP=0.015
+TD27: DRIF,L=0.204
+
+F3T: LINE=(TD24,F3BM01T,TD25,F3BM02T,TD26,F3BM03T,TD27)
+
+I1BM03T: SBEN,L=0.2886,ANGLE=-0.08083841496462137,E1=0.03740066054098649,E2=-0.3175347321323364,HGAP=0.015
+TD28: DRIF,L=0.375
+
+F3TI: LINE=(I1BM03T,TD28)
+
+TREZIRKULATION: LINE=(T0,T1,T2,F3T,F3TI)
+
+
+

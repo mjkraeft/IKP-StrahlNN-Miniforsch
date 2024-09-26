@@ -1,0 +1,39 @@
+
+! In dieser Datei werden Quadrupole und Drifts durch je ein Element der Länge 20 cm simuliert.
+
+&run_setup
+	lattice=s-dalinac.lte
+	! use_beamline=grobe_beamline_schwach
+	! use_beamline=glatte_beamline_schwach
+	! use_beamline=grobe_beamline_mittel
+	use_beamline=glatte_beamline_mittel
+	! use_beamline=grobe_beamline_stark
+	! use_beamline=glatte_beamline_stark
+	p_central=117.4168297455969
+	magnets = %s.mag
+	sigma=%s.sig
+&end
+
+ 
+&run_control
+        n_indices=0,
+		n_steps = 1
+&end
+ 
+
+&bunched_beam
+        n_particles_per_bunch    = 1000,
+        emit_nx                  = 1e-6,
+		beta_x                   = 117.41683,
+		alpha_x                  = 0,
+        emit_ny                  = 1e-6,
+		beta_y                   = 117.41683,
+		alpha_y                  = 0,
+        sigma_dp                 = 5e-3,
+        sigma_s                  = 1.49896e-3,
+        Po                       = 117.4168297455969‬ 
+&end
+
+&track &end
+
+

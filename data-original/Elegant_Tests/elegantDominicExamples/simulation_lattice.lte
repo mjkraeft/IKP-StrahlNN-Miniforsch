@@ -1,0 +1,13 @@
+! nachfolgend kann zwischen Betrachtung mit oder ohne Strahlrohrwand getoggelt werden
+!Apertur: MAXAMP,X_MAX="38 3 - 2 / 1000 /",Y_MAX="38 3 - 2 / 1000 /",ELLIPTICAL=1
+Beginning: MARK, FITPOINT=1
+!D1: DRIF, L=1
+!Steerer: KICKER, HKICK= 0.005, VKICK= 0, L=0
+Steerer1: KICKER, HKICK= 0.005, VKICK= 0, L=0
+D1: DRIF, L=1
+Steerer2: KICKER, HKICK= 0, VKICK= 0.0005, L=0
+D2: DRIF, L=1
+ENDE: MARK, FITPOINT=1 ! Beginn der verbreiterten Strahlkammer von I2BM01
+
+! Lattice until Target I0T5 - Other Targets removed to improve performance
+GunToTarget: LINE=(Beginning,Steerer1,D1,Steerer2,D2,ENDE)
