@@ -36,6 +36,11 @@ output_param_list = [
 
 
 def printStackedBar(Si):
+    '''
+    Visualizes sobol analysis as bar chart.
+    :param Si: results of sobol analysis
+    :return:
+    '''
 
 
     #print([str(0)].extend(Si[0]['S1']))
@@ -78,6 +83,9 @@ def printStackedBar(Si):
 
 
 if __name__ == '__main__':
+    '''
+    sobol analysis and visualization
+    '''
 
 
     model = loadModel()

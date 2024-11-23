@@ -22,6 +22,11 @@ model_file_path = 'model.keras'
 
 
 def getLabeledDataOld():
+    '''
+    Reads training Data from input_file_path and output_file_path
+    Warning deprecated
+    :return: training data x,y
+    '''
 
     x = np.loadtxt(input_file_path,
                    delimiter=' ',
@@ -41,6 +46,16 @@ def getLabeledDataOld():
 
 
 def getLabeledData(training_frac: float, validation_frac: float, test_frac: float):
+    '''
+    Reads training Data from input_file_path and output_file_path
+    TODO: make validation set constant set; i.e. count from back
+    TODO: factor function with Shap Analysis.py
+    :param training_frac:
+    :param validation_frac:
+    :param test_frac:
+    :return: training data split into training set, validation set, test_set
+    '''
+
 
     x = np.loadtxt(input_file_path,
                    delimiter=' ',
@@ -87,8 +102,12 @@ def getLabeledData(training_frac: float, validation_frac: float, test_frac: floa
 
 
 def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
-
-
+    '''
+    Trains a new model on training set.
+    :param training_set:
+    :param validation_set:
+    :return: model and training history
+    '''
 
 
     lossFunktion = keras.losses.Huber(
@@ -144,7 +163,12 @@ def train_model(training_set: tuple[np.ndarray, np.ndarray], validation_set: tup
 
 
 def train_optimized_model(model: keras.models.Sequential, training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
-
+    '''
+    Trains an existing model on training set.
+    :param training_set:
+    :param validation_set:
+    :return: model and training history
+    '''
 
     history = model.fit(training_set[0], training_set[1],
                         epochs=60,
@@ -157,6 +181,17 @@ def train_optimized_model(model: keras.models.Sequential, training_set: tuple[np
 
 
 class HyperModel(keras_tuner.HyperModel):
+    '''
+    Extension of keras_tuner.HyperModel for hyperparameter tuning.
+    Tunable hp are (at time of writing):
+        - num_layers
+        (- biased *NO PERFORMANCE IMPROVEMENT FOUND BY BIASED = FALSE)
+        - dropout_rate
+        - num_units_per_layer
+        - batch_size (while fitting)
+
+    Using Huber loss, Adam optimizer
+    '''
 
 
     def build(self, hp):
@@ -210,6 +245,13 @@ class HyperModel(keras_tuner.HyperModel):
 
 
 def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validation_set: tuple[np.ndarray, np.ndarray]):
+    '''
+    New hyperparameter optimization for training data
+    :param training_set:
+    :param validation_set:
+    :return: best model
+    '''
+
 
     hp = keras_tuner.HyperParameters()
     hypermodel = HyperModel()
@@ -264,6 +306,11 @@ def hyperparam_optimisation(training_set: tuple[np.ndarray, np.ndarray], validat
 
 
 def training_set_size_optimisation():
+    '''
+    Tests best achievable performance for an interval of training data sizes.
+    By commenting in/out below switch between training single modle or full hyperparameter tuning for each traing set size.
+    :return:
+    '''
     training_set_fracs = np.arange(0.01,0.6,0.01)
     results = np.zeros((training_set_fracs.shape[0], 3), dtype=float)
 
@@ -316,13 +363,27 @@ def training_set_size_optimisation():
 
 
 def saveModel(model: keras.models.Sequential):
+    '''
+    Saves model
+    :param model:
+    :return:
+    '''
     model.save(model_file_path)
 
 
 def loadModel():
+    '''
+    Loads model
+    :return:
+    '''
     return keras.models.load_model(model_file_path)
 
 def visualize_training_set_size_optimisation():
+
+    '''
+    For training set size optimisation: graphs performance over training set size.
+    :return:
+    '''
 
     simple_model_training_set_opti_results = np.loadtxt('training_set_size_opti_1/training_set_size_opti.txt')
     hyper_model_training_set_opti_results = np.loadtxt('training_set_size_opti/training_set_size_opti.txt')
@@ -357,6 +418,12 @@ def visualize_training_set_size_optimisation():
 
 
 def visualize_model_testing(model: keras.models.Sequential, test_set):
+    '''
+    Visualizes model performance with identify graphs. (i.e. predicted data over measured data with pretty density on z axis)
+    :param model:
+    :param test_set:
+    :return:
+    '''
     test_set_pre = model.predict(test_set[0])
     for i in range(test_set[1].shape[1]):
         plt.figure(dpi=200)
@@ -427,9 +494,9 @@ if __name__ == '__main__':
 
 
 
-    #training_frac = 0.1
-    #validation_frac = 0.25
-    #test_frac = 0.5
+    training_frac = 0.1
+    validation_frac = 0.25
+    test_frac = 0.5
     #training_set, validation_set, test_set = getLabeledData(training_frac, validation_frac, test_frac)
 
 

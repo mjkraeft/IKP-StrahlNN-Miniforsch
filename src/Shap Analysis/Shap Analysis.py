@@ -37,6 +37,15 @@ input_file_path = 'preprocess_input.txt'
 output_file_path = 'preprocess_output.txt'
 
 def getLabeledData(training_frac: float, validation_frac: float, test_frac: float):
+    '''
+    Reads training Data from input_file_path and output_file_path
+    TODO: make validation set constant set; i.e. count from back
+    TODO: factor function with Shap Analysis.py
+    :param training_frac:
+    :param validation_frac:
+    :param test_frac:
+    :return: training data split into training set, validation set, test_set
+    '''
 
     x = np.loadtxt(input_file_path,
                    delimiter=' ',
@@ -82,6 +91,9 @@ def getLabeledData(training_frac: float, validation_frac: float, test_frac: floa
 
 
 if __name__ == '__main__':
+    '''
+    First test of basic shape stuff
+    '''
     model = loadModel()
 
     training_frac = 0.6

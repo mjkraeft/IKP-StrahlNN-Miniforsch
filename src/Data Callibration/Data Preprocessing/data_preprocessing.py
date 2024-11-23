@@ -29,6 +29,12 @@ output_data_range_max = 1.
 scaling_factor_input = 2
 scaling_factor_output = 2
 
+
+
+#TODO: data_preprocessing figure out what each function does again for documentation
+
+
+
 def calculateScale():
 
     pixel_points = np.loadtxt(mouse_click_file_path,
