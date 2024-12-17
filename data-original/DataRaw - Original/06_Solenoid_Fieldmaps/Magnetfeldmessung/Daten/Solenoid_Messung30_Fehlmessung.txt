@@ -1,0 +1,7 @@
+# amount of points in x direction: 66 (distance of 200 steps)
+# amount of points in y direction: 19 (distance of 200 steps)
+# abs. coordinates of point 1: P1 (, , ) (offsets not corrected)
+# Offsets of the hall probe have already been corrected for all following coordinates.
+#
+# X (absolute in steps=10um) Y (absolute in steps=10um) Z (absolute in steps=10um) Babs(in T) Bx By Bz
+6000 6640 -3578
